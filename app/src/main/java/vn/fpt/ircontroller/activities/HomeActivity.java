@@ -109,7 +109,7 @@ public class HomeActivity extends CoreActivity {
     @Override
     protected void initModels() {
         mTitle.setText(getResources().getString(R.string.title_activity_home));
-        mSearchEdit.setHint(getResources().getString(R.string.search_hint_activity_account));
+        mSearchEdit.setHint(getResources().getString(R.string.search_hint_activity_home));
         mSearchEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
