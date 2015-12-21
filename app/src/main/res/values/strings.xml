@@ -12,7 +12,6 @@
     <string name="title_activity_setting">Setting</string>
     <string name="title_activity_splash">Splash</string>
 
-
     <string name="delete">Delete</string>
     <string name="successful">Successful</string>
     <string name="undo">Undo</string>
@@ -22,8 +21,11 @@
     <string name="ble_not_support">BLE not support for your phone.</string>
 
     <string name="emptyRoom">"Opps, you don't have any room right now. Please add your rooms by pressing add button below."</string>
+    <string name="emptyDevices">"Opps, you don't have any device right now. Please add your devices by pressing add button below."</string>
+
     <string name="addRoom">Add room</string>
     <string name="roomName">Room name</string>
+    <string name="title_activity_control">ControlActivity</string>
 
 
 </resources>

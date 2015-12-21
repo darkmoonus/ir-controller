@@ -42,7 +42,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import vn.fpt.ircontroller.application.IRApplication;
+import vn.fpt.ircontroller.dialogs.DialogAddDevice;
 import vn.fpt.ircontroller.dialogs.DialogAddRoom;
+import vn.fpt.ircontroller.interfaces.DialogAddDeviceListener;
 import vn.fpt.ircontroller.interfaces.DialogAddRoomListener;
 import vn.fpt.ircontroller.models.Room;
 
@@ -69,7 +71,7 @@ public abstract class CoreActivity extends AppCompatActivity implements Serializ
 	}
 	public void readRoomListSharedPreference() {
 		Type type = new TypeToken<List<Room>>(){}.getType();
-		ArrayList<Room> roomList = new Gson().fromJson(readSharedPreferences("IRController", "rooms") , type);
+		ArrayList<Room> roomList = new Gson().fromJson(readSharedPreferences("IRController", "rooms"), type);
 		if(roomList != null) {
 			IRApplication.mRoomList = roomList;
 		}
@@ -81,6 +83,17 @@ public abstract class CoreActivity extends AppCompatActivity implements Serializ
 			public void run() {
 				removePreviousDialog();
 				mDialog = DialogAddRoom.newInstance(CoreActivity.this, mListener);
+				mDialog.show(getSupportFragmentManager(), TAG);
+			}
+		});
+		return mDialog;
+	}
+	public DialogFragment showAddDeviceDialog(final DialogAddDeviceListener mListener) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				removePreviousDialog();
+				mDialog = DialogAddDevice.newInstance(CoreActivity.this, mListener);
 				mDialog.show(getSupportFragmentManager(), TAG);
 			}
 		});

@@ -35,12 +35,11 @@ import vn.fpt.ircontroller.models.Room;
 public class HomeActivity extends CoreActivity {
 
     private FloatingActionButton mAddRoom;
-    private LinearLayout mNormalBlock, mSearchBlock, mActionbar;
+    private LinearLayout mNormalBlock, mSearchBlock;
     private ImageView mSetting, mSearch, mDelText;
     private TextView mCancelSearch, mTitle;
     private EditText mSearchEdit;
     public LinearLayout mEmptyView;
-
 
     public UltimateRecyclerView mListView;
     private RoomListAdapter mListAdapter;
@@ -101,7 +100,6 @@ public class HomeActivity extends CoreActivity {
         mTitle = (TextView) findViewById(R.id.title);
         mSearchEdit = (EditText) findViewById(R.id.search_edittext);
         mCancelSearch = (TextView) findViewById(R.id.cancel_search);
-        mActionbar = (LinearLayout) findViewById(R.id.actionbar);
         mEmptyView = (LinearLayout) findViewById(R.id.empty_view);
         mListView = (UltimateRecyclerView) findViewById(R.id.room_list);
     }
@@ -200,5 +198,16 @@ public class HomeActivity extends CoreActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mListAdapter.notifyDataSetChanged();
+        super.onResume();
     }
 }
