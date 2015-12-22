@@ -49,9 +49,9 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Da
         holder.name.setText(d.getName());
         DeviceType type = d.getType();
         if(type.equals(DeviceType.AIR_CONDITIONER)) {
-
+            holder.avatar.setBackgroundResource(R.mipmap.air_conditioner);
         } else {
-
+            holder.avatar.setBackgroundResource(R.mipmap.tv);
         }
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override

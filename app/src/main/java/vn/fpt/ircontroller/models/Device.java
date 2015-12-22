@@ -1,19 +1,26 @@
 package vn.fpt.ircontroller.models;
 
+import java.util.HashMap;
+
 /**
  * Created by hunter on 12/18/2015.
  */
 public class Device {
     private String name;
     private DeviceType type;
-    private String address;
+    private HashMap<String, String> commandMap;
 
-    public Device(String name, DeviceType type, String address) {
+    public Device(String name, DeviceType type) {
         this.name = name;
         this.type = type;
-        this.address = address;
+        commandMap = new HashMap<>();
     }
-
+    public HashMap<String, String> getCommandMap() {
+        return commandMap;
+    }
+    public void setCommandMap(HashMap<String, String> commandMap) {
+        this.commandMap = commandMap;
+    }
     public String getName() {
         return name;
     }
@@ -25,11 +32,5 @@ public class Device {
     }
     public void setType(DeviceType type) {
         this.type = type;
-    }
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

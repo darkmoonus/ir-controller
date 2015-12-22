@@ -15,16 +15,20 @@
     <string name="delete">Delete</string>
     <string name="successful">Successful</string>
     <string name="undo">Undo</string>
+    <string name="choosePowerButton">"Try to press there power buttons and choose the one that work for your device."</string>
 
-    <string name="devices">devices</string>
+    <string name="devices">device(s)</string>
     <string name="ble_paired">Paired</string>
     <string name="ble_not_support">BLE not support for your phone.</string>
 
-    <string name="emptyRoom">"Opps, you don't have any room right now. Please add your rooms by pressing add button below."</string>
-    <string name="emptyDevices">"Opps, you don't have any device right now. Please add your devices by pressing add button below."</string>
+    <string name="emptyRoom">"Opps, you don't have any room. Please add your rooms by pressing add button below."</string>
+    <string name="emptyDevices">"Opps, you don't have any device. Please add your devices by pressing add button below."</string>
 
     <string name="addRoom">Add room</string>
+    <string name="addDevice">Add Device</string>
     <string name="roomName">Room name</string>
+    <string name="deviceName">Device name</string>
+
     <string name="title_activity_control">ControlActivity</string>
 
 

@@ -207,6 +207,7 @@ public class HomeActivity extends CoreActivity {
 
     @Override
     protected void onResume() {
+        mAddRoom.show();
         mListAdapter.notifyDataSetChanged();
         super.onResume();
     }

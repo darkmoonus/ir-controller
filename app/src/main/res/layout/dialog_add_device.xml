@@ -15,16 +15,16 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
             android:layout_margin="10dp"
-            android:src="@mipmap/room" />
+            android:src="@mipmap/tv" />
 
         <vn.fpt.ircontroller.customizes.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:text="@string/addRoom"
+            android:text="@string/addDevice"
             android:textColor="@color/colorPrimary"
             android:textSize="22dp" />
     </LinearLayout>
@@ -33,15 +33,15 @@
         android:id="@+id/room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
-        android:lines="1"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/bound_edittext"
         android:gravity="left|top"
-        android:hint="@string/roomName"
+        android:hint="@string/deviceName"
         android:inputType="text"
+        android:lines="1"
         android:padding="10dp"
         android:textColor="@color/gray"
         android:textCursorDrawable="@null"
@@ -49,6 +49,54 @@
 
     <LinearLayout
         android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/type"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"></Spinner>
+
+        <Spinner
+            android:id="@+id/vendor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"></Spinner>
+    </LinearLayout>
+
+    <vn.fpt.ircontroller.customizes.MyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="@string/choosePowerButton"
+        android:textColor="@color/colorPrimaryLight" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="right"
         android:orientation="horizontal">
@@ -69,7 +117,7 @@
             android:layout_marginRight="20dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/add"
-            android:textColor="@color/orange"
+            android:textColor="@color/red"
             android:textSize="15dp" />
     </LinearLayout>
 

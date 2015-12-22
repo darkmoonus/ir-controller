@@ -15,12 +15,14 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 
+import vn.fpt.ircontroller.models.DeviceRemote;
 import vn.fpt.ircontroller.models.Room;
 
 public class IRApplication extends Application {
     private static final String TAG = IRApplication.class.getSimpleName();
 
-    public static ArrayList<Room> mRoomList = new ArrayList<Room>();
+    public static ArrayList<Room> mRoomList = new ArrayList<>();
+    public static ArrayList<DeviceRemote> mDeviceRemoteList = new ArrayList<>();
 
     private static IRApplication mInstance;
 
