@@ -51,6 +51,8 @@ public class SpinnerTypeAdapter extends ArrayAdapter<String> {
 
         String d = objects.get(position);
         name.setText(d);
+        if(d.equals("TV")) icon.setImageResource(R.mipmap.tv); else
+        if(d.equals("AIR_CONDITIONER")) icon.setImageResource(R.mipmap.air_conditioner);
         return row;
     }
 }

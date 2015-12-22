@@ -47,7 +47,7 @@ public class ChooseDeviceActivity extends CoreActivity implements OnClickListene
     @Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_ble_choose_device);
+        setContentView(R.layout.dialog_scan_ble);
         mHandler = new Handler();
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             showToastLong(R.string.ble_not_support);
@@ -178,7 +178,7 @@ public class ChooseDeviceActivity extends CoreActivity implements OnClickListene
             if (convertView != null) {
                 vg = (ViewGroup) convertView;
             } else {
-                vg = (ViewGroup) inflater.inflate(R.layout.ble_device_item, null);
+                vg = (ViewGroup) inflater.inflate(R.layout.row_scan_ble, null);
             }
 
             BluetoothDevice device = devices.get(position);

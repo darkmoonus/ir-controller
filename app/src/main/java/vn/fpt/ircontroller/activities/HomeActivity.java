@@ -194,7 +194,7 @@ public class HomeActivity extends CoreActivity {
                 mSearchEdit.requestFocus();
                 break;
             case R.id.setting:
-                startActivity(new Intent(HomeActivity.this, ChooseDeviceActivity.class));
+                scanBLE();
                 break;
             default:
                 break;

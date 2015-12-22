@@ -13,6 +13,8 @@
     <string name="title_activity_splash">Splash</string>
 
     <string name="delete">Delete</string>
+    <string name="scanBLE">Scan BLE device</string>
+
     <string name="successful">Successful</string>
     <string name="undo">Undo</string>
     <string name="deviceNameEmpty">Device name, type, and brand cannot empty.</string>

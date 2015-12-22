@@ -8,8 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import vn.fpt.ircontroller.R;
+import vn.fpt.ircontroller.application.IRApplication;
+import vn.fpt.ircontroller.cores.CoreActivity;
 
-public class ControlActivity extends AppCompatActivity {
+public class ControlActivity extends CoreActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,5 +21,37 @@ public class ControlActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        initViews();
+        initModels();
+        initListeners();
+        initAnimations();
+    }
+
+    @Override
+    protected void initViews() {
+
+    }
+
+    @Override
+    protected void initModels() {
+        if(IRApplication.mService == null) {
+            scanBLE();
+        }
+    }
+
+    @Override
+    protected void initListeners() {
+
+    }
+
+    @Override
+    protected void initAnimations() {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

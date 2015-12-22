@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -10,21 +10,21 @@
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:gravity="left|center_vertical"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
-        <TextView
+        <vn.fpt.ircontroller.customizes.MyTextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="14dp" />
 
-        <TextView
+        <vn.fpt.ircontroller.customizes.MyTextView
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name"
-            android:textColor="@color/black"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="10dp" />
     </LinearLayout>
 
@@ -33,20 +33,20 @@
         android:layout_height="30dp"
         android:layout_margin="10dp"
         android:gravity="right|center_vertical"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
-        <TextView
+        <vn.fpt.ircontroller.customizes.MyTextView
             android:id="@+id/paired"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="12dp" />
 
-        <TextView
+        <vn.fpt.ircontroller.customizes.MyTextView
             android:id="@+id/rssi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="12dp" />
     </LinearLayout>
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IR Controller</string>
+    <string name="action_settings">Cài đặt</string>
+
+    <string name="add">Thêm</string>
+    <string name="cancel">Hủy</string>
+    <string name="title_activity_home">Quản lý phòng</string>
+    <string name="search_hint_activity_home">Tìm kiếm phòng</string>
+    <string name="title_activity_devices">Quản lý thiết bị</string>
+    <string name="search_hint_activity_devices">Tìm kiếm thiết bị</string>
+    <string name="title_activity_setting">Cài đặt</string>
+    <string name="title_activity_splash">Splash</string>
+
+    <string name="delete">Xóa</string>
+    <string name="scanBLE">Quét thiết bị BLE</string>
+    <string name="successful">Thành công</string>
+    <string name="undo">Khôi phục</string>
+    <string name="deviceNameEmpty">Tên thiết bị, chủng loại và thương hiệu không được để trống</string>
+
+    <string name="choosePowerButton">"Hãy thử các nút bên dưới, và chọn nút nào hoạt động được với thiết bị của bạn"</string>
+    <string name="chooseType">CHỌN LOẠI</string>
+    <string name="chooseBrand">THƯƠNG HIỆU</string>
+
+    <string name="devices">thiết bị</string>
+    <string name="ble_paired">Đã ghép nối</string>
+    <string name="ble_not_support">Rất tiếc, điện thoại của bạn không hỗ trợ BLE</string>
+
+    <string name="emptyRoom">"Ồ, hình như bạn chưa thêm phòng nào. Hãy thêm phòng bằng cách click nút bên dưới"</string>
+    <string name="emptyDevices">"Ồ, hình như bạn chưa thêm thiết bị nào cho phòng này. Hãy thêm thiết bị bằng cách click nút bên dưới"</string>
+
+    <string name="addRoom">Thêm phòng</string>
+    <string name="addDevice">Thêm thiết bị</string>
+    <string name="roomName">Tên phòng</string>
+    <string name="deviceName">Tên thiết bị</string>
+
+    <string name="title_activity_control">Điều khiển</string>
+
+
+</resources>

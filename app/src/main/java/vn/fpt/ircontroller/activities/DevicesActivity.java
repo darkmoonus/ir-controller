@@ -199,7 +199,7 @@ public class DevicesActivity extends CoreActivity {
                 mSearchEdit.requestFocus();
                 break;
             case R.id.setting:
-                startActivity(new Intent(DevicesActivity.this, ChooseDeviceActivity.class));
+                scanBLE();
                 break;
             default:
                 break;
