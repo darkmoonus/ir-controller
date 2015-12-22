@@ -16,9 +16,8 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
+        android:layout_marginLeft="9dp"
         android:gravity="center"
-        android:text="Samsung"
         android:textColor="@color/colorPrimary"
         android:textSize="13dp" />
 </LinearLayout>

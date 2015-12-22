@@ -46,7 +46,7 @@ public class DialogAddDevice extends DialogFragment implements OnClickListener {
     private String mTypeSelected, mBrandSelected;
 
     private TextView mTips;
-    private LinearLayout mChoosePower;
+    private LinearLayout mChoosePower, mLayout;
     private DeviceRemote mChosenDevice;
 
     public DialogAddDevice(CoreActivity context, DialogAddDeviceListener listener) {
@@ -92,7 +92,7 @@ public class DialogAddDevice extends DialogFragment implements OnClickListener {
 
     public void reloadPowerButtons() {
         mTips.setVisibility(View.GONE);
-        mChoosePower.setVisibility(View.GONE);
+        mLayout.setVisibility(View.GONE);
         mChoosePower.removeAllViews();
         if(mTypeSelected != getResources().getString(R.string.chooseType) && mBrandSelected != getResources().getString(R.string.chooseBrand)) {
             final ArrayList<DeviceRemote> deviceRemoteList = new ArrayList<>();
@@ -107,6 +107,9 @@ public class DialogAddDevice extends DialogFragment implements OnClickListener {
                     image.setLayoutParams(l);
                     powerList.add(image);
                 }
+            }
+            if(powerList.size() != 0) {
+                mChosenDevice = deviceRemoteList.get(0);
             }
             for(int i=0; i<powerList.size(); i++) {
                 final int ii = i;
@@ -132,7 +135,7 @@ public class DialogAddDevice extends DialogFragment implements OnClickListener {
             }
             if(deviceRemoteList.size() != 0) {
                 mTips.setVisibility(View.VISIBLE);
-                mChoosePower.setVisibility(View.VISIBLE);
+                mLayout.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -191,6 +194,7 @@ public class DialogAddDevice extends DialogFragment implements OnClickListener {
         mTypeSpinner = (Spinner) view.findViewById(R.id.type);
         mBrandSpinner = (Spinner) view.findViewById(R.id.brand);
         mTips = (TextView) view.findViewById(R.id.tips);
+        mLayout = (LinearLayout) view.findViewById(R.id.layout);
         mChoosePower = (LinearLayout) view.findViewById(R.id.choose_power_button_block);
     }
 
@@ -212,9 +216,11 @@ public class DialogAddDevice extends DialogFragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.add:
                 String s = mEditText.getText().toString().trim();
-                if(!s.equals("")) {
-                    mListener.onYes(s);
+                if(!s.equals("") && mChosenDevice != null) {
+                    mListener.onYes(new Device(s, mChosenDevice.getType(), mChosenDevice.getCommandMap()));
                     dismiss();
+                } else {
+                    mContext.showToastLong(getResources().getString(R.string.deviceNameEmpty));
                 }
                 break;
             case R.id.cancel:

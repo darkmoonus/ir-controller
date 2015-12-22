@@ -10,10 +10,10 @@ public class Device {
     private DeviceType type;
     private HashMap<String, String> commandMap;
 
-    public Device(String name, DeviceType type) {
+    public Device(String name, DeviceType type, HashMap<String, String> commandMap) {
         this.name = name;
         this.type = type;
-        commandMap = new HashMap<>();
+        this.commandMap = commandMap;
     }
     public HashMap<String, String> getCommandMap() {
         return commandMap;

@@ -15,6 +15,7 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 
+import vn.fpt.ircontroller.ble.UartService;
 import vn.fpt.ircontroller.models.DeviceRemote;
 import vn.fpt.ircontroller.models.Room;
 
@@ -23,6 +24,9 @@ public class IRApplication extends Application {
 
     public static ArrayList<Room> mRoomList = new ArrayList<>();
     public static ArrayList<DeviceRemote> mDeviceRemoteList = new ArrayList<>();
+    public static UartService mService = null;
+
+
 
     private static IRApplication mInstance;
 

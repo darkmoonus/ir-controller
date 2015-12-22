@@ -31,7 +31,7 @@
 
     <vn.fpt.ircontroller.customizes.MyEditText
         android:id="@+id/device"
-        android:layout_width="300dp"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
@@ -84,23 +84,46 @@
         android:textColor="@color/colorPrimaryLight"
         android:visibility="gone" />
 
-    <HorizontalScrollView
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp">
+        android:layout_height="60dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/choose_power_button_block"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginRight="3dp"
+            android:src="@mipmap/arrow_left" />
 
-        </LinearLayout>
-    </HorizontalScrollView>
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/choose_power_button_block"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="3dp"
+            android:src="@mipmap/arrow_right" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

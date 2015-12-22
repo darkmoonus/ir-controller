@@ -51,7 +51,7 @@ public class SplashActivity extends CoreActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -61,38 +61,37 @@ public class SplashActivity extends CoreActivity {
             }
         }).start();
 
-
-
-
-
-
-
         startBLEService();
+        scanBLE();
     }
 
+
     private HashMap<String, DeviceType> typeMap = new HashMap<>();
+
     public void initDevicesData() {
         typeMap.put("TV", DeviceType.TV);
         typeMap.put("AIR", DeviceType.AIR_CONDITIONER);
 
         try {
             String[] fileList = getAssets().list("data");
-            for(String s : fileList) {
+            for (String s : fileList) {
                 initCmdMap(s);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public String removeBlank(String s) {
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i<s.length(); i++) {
-            if(i==0 || s.charAt(i) != ' ' || (s.charAt(i) == ' ' && s.charAt(i-1) != ' ')) {
+        for (int i = 0; i < s.length(); i++) {
+            if (i == 0 || s.charAt(i) != ' ' || (s.charAt(i) == ' ' && s.charAt(i - 1) != ' ')) {
                 sb.append(s.charAt(i));
             }
         }
         return sb.toString().trim();
     }
+
     public String getDataFromHex(String data) {
         StringBuilder sb = new StringBuilder();
         sb.append(Integer.parseInt(data.substring(4, 6), 16));
@@ -100,6 +99,7 @@ public class SplashActivity extends CoreActivity {
         sb.append(Integer.parseInt(data.substring(2, 4), 16));
         return sb.toString();
     }
+
     public void initCmdMap(String path) {
         String brand = "UNDEFINE";
         DeviceType type = typeMap.get(path.split("_")[0]);
@@ -114,42 +114,34 @@ public class SplashActivity extends CoreActivity {
             reader = new BufferedReader(new InputStreamReader(getAssets().open("data/" + path), "UTF-8"));
             String mLine = reader.readLine();
             while (mLine != null) {
-                if(mLine.contains("pre_data")) {
+                if (mLine.contains("pre_data")) {
                     predata = removeBlank(mLine).split(" ")[1];
                 }
                 // vendor
-                if(mLine.contains("name")) {
+                if (mLine.contains("name")) {
                     String name = removeBlank(mLine).split(" ")[1].toLowerCase();
-                    if(name.contains("samsung")) {
+                    if (name.contains("samsung")) {
                         brand = "SAMSUNG";
                         vendorId = 11;
-                    } else
-                    if(name.contains("lg")) {
+                    } else if (name.contains("lg")) {
                         brand = "LG";
                         vendorId = 12;
-                    } else
-                    if(name.contains("panasonic")) {
+                    } else if (name.contains("panasonic")) {
                         brand = "PANASONIC";
                         vendorId = 13;
-                    } else
-                    if(name.contains("huawei")) {
+                    } else if (name.contains("huawei")) {
                         brand = "HUAWEI";
                         vendorId = 13;
                     }
-                } else
-                if(mLine.contains("pre_data_bits")) {
+                } else if (mLine.contains("pre_data_bits")) {
                     preDataBit = Integer.parseInt(removeBlank(mLine).split(" ")[1]);
-                } else
-                if(mLine.contains("bits")) {
+                } else if (mLine.contains("bits")) {
                     bits = Integer.parseInt(removeBlank(mLine).split(" ")[1]);
-                } else
-                if(mLine.contains("begin codes")) {
+                } else if (mLine.contains("begin codes")) {
                     beginCode = true;
-                } else
-                if(mLine.contains("end codes")) {
+                } else if (mLine.contains("end codes")) {
                     beginCode = false;
-                } else
-                if(beginCode) {
+                } else if (beginCode) {
                     String mCode = removeBlank(mLine);
                     String[] arr = mCode.split(" ");
                     String codeName = arr[0];
@@ -176,6 +168,7 @@ public class SplashActivity extends CoreActivity {
         IRApplication.mDeviceRemoteList.add(new DeviceRemote(brand, type, cmdMap));
         loge("Load successful: " + vendorId + "|" + preDataBit + "|" + bits + "|" + predata);
     }
+
 
     @Override
     protected void initViews() {
@@ -213,6 +206,7 @@ public class SplashActivity extends CoreActivity {
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -223,8 +217,8 @@ public class SplashActivity extends CoreActivity {
             Log.e(TAG, ignore.toString());
         }
         unbindService(mServiceConnection);
-        mService.stopSelf();
-        mService= null;
+        IRApplication.mService.stopSelf();
+        IRApplication.mService = null;
     }
 
     // BLE
@@ -237,7 +231,7 @@ public class SplashActivity extends CoreActivity {
                     String res = data.getStringExtra(BluetoothDevice.EXTRA_DEVICE);
                     mDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(res);
                     mBLEStatus = BLEStatus.CONNECTING;
-                    mService.connect(res);
+                    IRApplication.mService.connect(res);
                     showToastLong("Connected to: " + res);
                 }
                 break;
@@ -257,6 +251,7 @@ public class SplashActivity extends CoreActivity {
                 break;
         }
     }
+
     public enum BLEStatus {
         CONNECTED, NOTCONNECTED, CONNECTING;
     }
@@ -264,13 +259,12 @@ public class SplashActivity extends CoreActivity {
     public BLEStatus mBLEStatus = BLEStatus.NOTCONNECTED;
     private static final int REQUEST_SELECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
-    public static final String TAG = "Main Activity";
+    public static final String TAG = "Splash Activity";
     private static final int UART_PROFILE_CONNECTED = 20;
     private static final int UART_PROFILE_DISCONNECTED = 21;
     private int mState = UART_PROFILE_DISCONNECTED;
     public String connectDisconnectTag = "Connect";
-    protected UartService mService = null;
-    private BluetoothDevice mDevice = null ;
+    private BluetoothDevice mDevice = null;
     private BluetoothAdapter mBtAdapter = null;
     private Handler mHandler = new Handler() {
         @Override
@@ -282,16 +276,17 @@ public class SplashActivity extends CoreActivity {
     //UART service connected/disconnected
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder rawBinder) {
-            mService = ((UartService.LocalBinder) rawBinder).getService();
-            Log.d(TAG, "onServiceConnected mService= " + mService);
-            if (!mService.initialize()) {
+            IRApplication.mService = ((UartService.LocalBinder) rawBinder).getService();
+            Log.d(TAG, "onServiceConnected mService= " + IRApplication.mService);
+            if (!IRApplication.mService.initialize()) {
                 Log.e(TAG, "Unable to initialize Bluetooth");
                 finish();
             }
         }
+
         public void onServiceDisconnected(ComponentName classname) {
             ////     mService.disconnect(mDevice);
-            mService = null;
+            IRApplication.mService = null;
         }
     };
     private final BroadcastReceiver UARTStatusChangeReceiver = new BroadcastReceiver() {
@@ -315,14 +310,14 @@ public class SplashActivity extends CoreActivity {
                         Log.d(TAG, "UART_DISCONNECT_MSG");
                         mBLEStatus = BLEStatus.NOTCONNECTED;
                         mState = UART_PROFILE_DISCONNECTED;
-                        mService.close();
+                        IRApplication.mService.close();
 //                         onRogoDisconnected();
                         //setUiState();
                     }
                 });
             }
             if (action.equals(UartService.ACTION_GATT_SERVICES_DISCOVERED)) {
-                mService.enableTXNotification();
+                IRApplication.mService.enableTXNotification();
             }
             if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
                 final byte[] txValue = intent.getByteArrayExtra(UartService.EXTRA_DATA);
@@ -344,18 +339,20 @@ public class SplashActivity extends CoreActivity {
 //            }
         }
     };
+
     public void sendMessageToBLEDevice(String msg) {
-        if(mService == null) {
+        if (IRApplication.mService == null) {
             showToastLong("Service not available");
             return;
         }
         try {
-            mService.writeRXCharacteristic(msg.getBytes("UTF-8"));
+            IRApplication.mService.writeRXCharacteristic(msg.getBytes("UTF-8"));
             showToastLong("Send message " + msg);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
+
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(UartService.ACTION_GATT_CONNECTED);
@@ -365,6 +362,7 @@ public class SplashActivity extends CoreActivity {
         intentFilter.addAction(UartService.DEVICE_DOES_NOT_SUPPORT_UART);
         return intentFilter;
     }
+
     public void startBLEService() {
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBtAdapter == null) {
@@ -376,20 +374,21 @@ public class SplashActivity extends CoreActivity {
         bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
         LocalBroadcastManager.getInstance(this).registerReceiver(UARTStatusChangeReceiver, makeGattUpdateIntentFilter());
     }
+
     public void scanBLE() {
         if (!mBtAdapter.isEnabled()) {
             Log.i(TAG, "onClick - BT not enabled yet");
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         } else {
-            if (connectDisconnectTag.equals("Connect")){
+            if (connectDisconnectTag.equals("Connect")) {
                 Intent newIntent = new Intent(SplashActivity.this, ChooseDeviceActivity.class);
                 startActivityForResult(newIntent, REQUEST_SELECT_DEVICE);
                 connectDisconnectTag = "Disconnect";
             } else {
                 connectDisconnectTag = "Connect";
-                if (mDevice!=null) {
-                    mService.disconnect();
+                if (mDevice != null) {
+                    IRApplication.mService.disconnect();
                 }
             }
         }

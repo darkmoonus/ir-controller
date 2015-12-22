@@ -165,8 +165,8 @@ public class DevicesActivity extends CoreActivity {
             case R.id.add:
                 showAddDeviceDialog(new DialogAddDeviceListener() {
                     @Override
-                    public void onYes(String name) {
-                        mListAdapter.addItem(new Device(name, DeviceType.AIR_CONDITIONER));
+                    public void onYes(Device d) {
+                        mListAdapter.addItem(d);
                     }
 
                     @Override
