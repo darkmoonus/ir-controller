@@ -15,7 +15,9 @@
     <string name="delete">Delete</string>
     <string name="successful">Successful</string>
     <string name="undo">Undo</string>
-    <string name="choosePowerButton">"Try to press there power buttons and choose the one that work for your device."</string>
+    <string name="choosePowerButton">"Try to press there power buttons and choose the one worked for your device."</string>
+    <string name="chooseType">CHOOSE TYPE</string>
+    <string name="chooseBrand">CHOOSE BRAND</string>
 
     <string name="devices">device(s)</string>
     <string name="ble_paired">Paired</string>

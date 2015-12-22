@@ -30,8 +30,8 @@
     </LinearLayout>
 
     <vn.fpt.ircontroller.customizes.MyEditText
-        android:id="@+id/room"
-        android:layout_width="match_parent"
+        android:id="@+id/device"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
@@ -48,29 +48,32 @@
         android:textSize="16dp" />
 
     <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Spinner
             android:id="@+id/type"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"></Spinner>
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1">
+
+        </Spinner>
 
         <Spinner
-            android:id="@+id/vendor"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"></Spinner>
+            android:id="@+id/brand"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1">
+
+        </Spinner>
     </LinearLayout>
 
     <vn.fpt.ircontroller.customizes.MyTextView
+        android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -78,19 +81,23 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/choosePowerButton"
-        android:textColor="@color/colorPrimaryLight" />
+        android:textColor="@color/colorPrimaryLight"
+        android:visibility="gone" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="15dp">
 
         <LinearLayout
+            android:id="@+id/choose_power_button_block"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
         </LinearLayout>
     </HorizontalScrollView>

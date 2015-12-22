@@ -4,14 +4,14 @@
 #
 # contributed by
 #
-# brand:                       			Samsung
+# brand:                       			Panasonic
 # model no. of remote control: 			BN59-00603A
 # devices being controlled by this remote:	LCD TV
 #
 
 begin remote
 
-  name  Samsung_BN59-00603A
+  name  Panasonic_BN59-00603A
   bits           16
   flags SPACE_ENC|CONST_LENGTH
   eps            30

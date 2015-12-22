@@ -4,14 +4,14 @@
 #
 # contributed by
 #
-# brand:                       			Huawei
+# brand:                       			Samsung
 # model no. of remote control: 			BN59-00603A
 # devices being controlled by this remote:	LCD TV
 #
 
 begin remote
 
-  name  Huawei_BN59-00603A
+  name  Samsung_BN59-00603A
   bits           16
   flags SPACE_ENC|CONST_LENGTH
   eps            30

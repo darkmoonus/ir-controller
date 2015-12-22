@@ -26,6 +26,7 @@ import vn.fpt.ircontroller.R;
 import vn.fpt.ircontroller.adapters.DeviceListAdapter;
 import vn.fpt.ircontroller.adapters.RoomListAdapter;
 import vn.fpt.ircontroller.application.IRApplication;
+import vn.fpt.ircontroller.ble.ChooseDeviceActivity;
 import vn.fpt.ircontroller.cores.CoreActivity;
 import vn.fpt.ircontroller.customizes.MyAnimations;
 import vn.fpt.ircontroller.interfaces.DialogAddDeviceListener;
@@ -198,7 +199,7 @@ public class DevicesActivity extends CoreActivity {
                 mSearchEdit.requestFocus();
                 break;
             case R.id.setting:
-                startActivity(new Intent(DevicesActivity.this, SettingActivity.class));
+                startActivity(new Intent(DevicesActivity.this, ChooseDeviceActivity.class));
                 break;
             default:
                 break;

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vn.fpt.ircontroller">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:name=".application.IRApplication"
         android:allowBackup="true"
@@ -12,10 +15,6 @@
         <activity
             android:name=".activities.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activities.SettingActivity"
-            android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.DevicesActivity"
@@ -36,11 +35,19 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="1b0363f05ab9e173450c840e4dde99c517bf8a3e" />
-
+        <activity
+            android:name=".ble.ChooseDeviceActivity"
+            android:label="@string/title_activity_control"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.ControlActivity"
             android:label="@string/title_activity_control"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
+        <service
+            android:name=".ble.UartService"
+            android:enabled="true" />
     </application>
 
 </manifest>
