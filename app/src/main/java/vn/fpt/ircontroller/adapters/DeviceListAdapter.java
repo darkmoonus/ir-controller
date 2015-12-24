@@ -26,9 +26,11 @@ import vn.fpt.ircontroller.models.Room;
 public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.DataObjectHolder> {
     private ArrayList<Device> dataSet;
     private DevicesActivity mActivity;
-    public DeviceListAdapter(ArrayList<Device> myDataSet, DevicesActivity mActivity) {
+    private int mDevicePosition;
+    public DeviceListAdapter(int pos, ArrayList<Device> myDataSet, DevicesActivity mActivity) {
         this.mActivity = mActivity;
         this.dataSet = myDataSet;
+        this.mDevicePosition = pos;
     }
 
     @Override
@@ -118,7 +120,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Da
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(mActivity, ControlActivity.class);
-                    i.putExtra("Position", getPosition() + "");
+                    i.putExtra("Position", mDevicePosition + "_" + getPosition());
                     mActivity.startActivity(i);
                 }
             });

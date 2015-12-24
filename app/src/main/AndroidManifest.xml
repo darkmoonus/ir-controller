@@ -35,6 +35,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="1b0363f05ab9e173450c840e4dde99c517bf8a3e" />
+
         <activity
             android:name=".ble.ChooseDeviceActivity"
             android:label="@string/title_activity_control"

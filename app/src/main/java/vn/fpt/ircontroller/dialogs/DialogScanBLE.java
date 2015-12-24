@@ -87,13 +87,13 @@ public class DialogScanBLE extends DialogFragment implements OnClickListener {
         mHandler = new Handler();
         if (!mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             mContext.showToastLong(R.string.ble_not_support);
-            mContext.removePreviousDialog();
+            dismiss();
         }
         final BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
         if (mBluetoothAdapter == null) {
             mContext.showToastLong(R.string.ble_not_support);
-            mContext.removePreviousDialog();
+            dismiss();
         }
 
         initViews(view);
@@ -119,7 +119,7 @@ public class DialogScanBLE extends DialogFragment implements OnClickListener {
 //                b.putString(BluetoothDevice.EXTRA_DEVICE, deviceList.get(position).getAddress());
 //                mContext.setResult(Activity.RESULT_OK, new Intent().putExtras(b));
                 mListener.onConnect(deviceList.get(position).getAddress());
-                mContext.removePreviousDialog();
+                dismiss();
             }
         });
         scanLeDevice(true);
@@ -143,7 +143,7 @@ public class DialogScanBLE extends DialogFragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.device_list_dialog_cancel:
-                mContext.removePreviousDialog();
+                dismiss();
                 break;
             default:
                 break;

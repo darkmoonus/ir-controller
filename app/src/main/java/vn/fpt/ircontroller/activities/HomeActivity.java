@@ -194,7 +194,7 @@ public class HomeActivity extends CoreActivity {
                 mSearchEdit.requestFocus();
                 break;
             case R.id.setting:
-                scanBLE();
+//                scanBLE();
                 break;
             default:
                 break;

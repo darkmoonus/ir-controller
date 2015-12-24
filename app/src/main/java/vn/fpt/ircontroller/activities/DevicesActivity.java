@@ -62,7 +62,7 @@ public class DevicesActivity extends CoreActivity {
 
     private int mScroll = -5;
     public void initListView() {
-        mListAdapter = new DeviceListAdapter(IRApplication.mRoomList.get(mPosition).getDeviceList(), DevicesActivity.this);
+        mListAdapter = new DeviceListAdapter(mPosition, IRApplication.mRoomList.get(mPosition).getDeviceList(), DevicesActivity.this);
         mListView.setHasFixedSize(true);
         mListView.setLayoutManager(new LinearLayoutManager(DevicesActivity.this));
         mListView.setAdapter(mListAdapter);
@@ -199,7 +199,7 @@ public class DevicesActivity extends CoreActivity {
                 mSearchEdit.requestFocus();
                 break;
             case R.id.setting:
-                scanBLE();
+//                scanBLE();
                 break;
             default:
                 break;
