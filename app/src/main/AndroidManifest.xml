@@ -39,16 +39,20 @@
         <activity
             android:name=".ble.ChooseDeviceActivity"
             android:label="@string/title_activity_control"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.ControlActivity"
             android:label="@string/title_activity_control"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".ble.UartService"
             android:enabled="true" />
+
+        <activity
+            android:name=".activities.ControlAirConditionerActivity"
+            android:label="@string/title_activity_control_air_conditioner"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

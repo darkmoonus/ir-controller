@@ -1,13 +1,26 @@
 package vn.fpt.ircontroller.activities;
 
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +36,7 @@ import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import vn.fpt.ircontroller.R;
@@ -31,18 +45,21 @@ import vn.fpt.ircontroller.adapters.DeviceListAdapter;
 import vn.fpt.ircontroller.adapters.RoomListAdapter;
 import vn.fpt.ircontroller.application.IRApplication;
 import vn.fpt.ircontroller.ble.ChooseDeviceActivity;
+import vn.fpt.ircontroller.ble.UartService;
 import vn.fpt.ircontroller.cores.CoreActivity;
+import vn.fpt.ircontroller.cores.CoreBLEActivity;
 import vn.fpt.ircontroller.customizes.MyAnimations;
 import vn.fpt.ircontroller.interfaces.DialogAddCustomButtonListener;
 import vn.fpt.ircontroller.interfaces.DialogAddDeviceListener;
 import vn.fpt.ircontroller.interfaces.DialogAddRoomListener;
+import vn.fpt.ircontroller.interfaces.DialogScanBLEListener;
 import vn.fpt.ircontroller.models.CustomButton;
 import vn.fpt.ircontroller.models.Device;
 import vn.fpt.ircontroller.models.DeviceType;
 import vn.fpt.ircontroller.models.Room;
 
-public class DevicesActivity extends CoreActivity {
-
+public class DevicesActivity extends CoreBLEActivity {
+    private String TAG = getClass().getSimpleName();
     private FloatingActionButton mAddDevice;
     private ImageView mSetting, mNaviagate;
     private TextView mTitle;
@@ -59,6 +76,7 @@ public class DevicesActivity extends CoreActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_devices);
+
 
         initViews();
         initModels();
@@ -193,7 +211,7 @@ public class DevicesActivity extends CoreActivity {
                 finish();
                 break;
             case R.id.setting:
-//                scanBLE();
+                scanBLE();
                 break;
             default:
                 break;

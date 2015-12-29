@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import vn.fpt.ircontroller.R;
 import vn.fpt.ircontroller.activities.ControlActivity;
+import vn.fpt.ircontroller.activities.ControlAirConditionerActivity;
 import vn.fpt.ircontroller.activities.DevicesActivity;
 import vn.fpt.ircontroller.activities.HomeActivity;
 import vn.fpt.ircontroller.cores.CoreActivity;
@@ -35,7 +36,8 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Da
 
     @Override
     public int getItemViewType(int position) {
-//        if(type.equals(DashboardDataType.ADS)) return 5;
+        if(dataSet.get(position).getType().equals(DeviceType.AIR_CONDITIONER)) return 2;
+        if(dataSet.get(position).getType().equals(DeviceType.TV)) return 1;
         return -1;
     }
 
@@ -116,14 +118,30 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Da
             name = (TextView) itemView.findViewById(R.id.name);
             delete = (ImageView) itemView.findViewById(R.id.delete);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(mActivity, ControlActivity.class);
-                    i.putExtra("Position", mDevicePosition + "_" + getPosition());
-                    mActivity.startActivity(i);
-                }
-            });
+            switch (type) {
+                case 1:
+                    itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(mActivity, ControlActivity.class);
+                            i.putExtra("Position", mDevicePosition + "_" + getPosition());
+                            mActivity.startActivity(i);
+                        }
+                    });
+                    break;
+                case 2:
+                    itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(mActivity, ControlAirConditionerActivity.class);
+                            i.putExtra("Position", mDevicePosition + "_" + getPosition());
+                            mActivity.startActivity(i);
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

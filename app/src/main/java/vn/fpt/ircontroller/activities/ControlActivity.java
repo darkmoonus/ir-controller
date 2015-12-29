@@ -27,32 +27,26 @@ import vn.fpt.ircontroller.application.IRApplication;
 import vn.fpt.ircontroller.ble.ChooseDeviceActivity;
 import vn.fpt.ircontroller.ble.UartService;
 import vn.fpt.ircontroller.cores.CoreActivity;
+import vn.fpt.ircontroller.cores.CoreBLEActivity;
 import vn.fpt.ircontroller.interfaces.DialogScanBLEListener;
 import vn.fpt.ircontroller.models.Device;
 
-public class ControlActivity extends CoreActivity {
+public class ControlActivity extends CoreBLEActivity {
     private String TAG = getClass().getSimpleName();
     private ImageView power;
-    private TextView code1, code2, code3, code4, code5, code6, code7, code8, code9, mute, volumeUp, volumeDown, channelUp, channelDown;
+    private TextView code1, code2, code3, code4, code5, code6, code7, code8, code9, name;
+    private ImageView volumeUp, volumeDown, channelUp, channelDown, up, down, left, right, enter, mute;
     private Device mRemoteDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control_tv);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-//        startBLEService();
 
         initViews();
         initModels();
         initListeners();
         initAnimations();
-
 
     }
 
@@ -68,11 +62,17 @@ public class ControlActivity extends CoreActivity {
         code7 = (TextView) findViewById(R.id.code_7);
         code8 = (TextView) findViewById(R.id.code_8);
         code9 = (TextView) findViewById(R.id.code_9);
-        mute = (TextView) findViewById(R.id.mute);
-        volumeUp = (TextView) findViewById(R.id.volumn_up);
-        volumeDown = (TextView) findViewById(R.id.volumn_down);
-        channelUp = (TextView) findViewById(R.id.channel_up);
-        channelDown = (TextView) findViewById(R.id.channel_down);
+        mute = (ImageView) findViewById(R.id.mute);
+        volumeUp = (ImageView) findViewById(R.id.volumn_up);
+        volumeDown = (ImageView) findViewById(R.id.volumn_down);
+        channelUp = (ImageView) findViewById(R.id.channel_up);
+        channelDown = (ImageView) findViewById(R.id.channel_down);
+        up = (ImageView) findViewById(R.id.up);
+        down = (ImageView) findViewById(R.id.down);
+        enter = (ImageView) findViewById(R.id.enter);
+        left = (ImageView) findViewById(R.id.left);
+        right = (ImageView) findViewById(R.id.right);
+        name = (TextView) findViewById(R.id.device_name);
     }
 
     @Override
@@ -80,6 +80,7 @@ public class ControlActivity extends CoreActivity {
         Intent i = getIntent();
         String[] arr = i.getStringExtra("Position").split("_");
         mRemoteDevice = IRApplication.mRoomList.get(Integer.parseInt(arr[0])).getDeviceList().get(Integer.parseInt(arr[1]));
+        name.setText(mRemoteDevice.getName());
 //        if (IRApplication.mService == null) {
 //            scanBLE();
 //        }
@@ -102,6 +103,11 @@ public class ControlActivity extends CoreActivity {
         volumeDown.setOnClickListener(this);
         channelUp.setOnClickListener(this);
         channelDown.setOnClickListener(this);
+        up.setOnClickListener(this);
+        down.setOnClickListener(this);
+        left.setOnClickListener(this);
+        right.setOnClickListener(this);
+        enter.setOnClickListener(this);
     }
 
     @Override
@@ -157,216 +163,23 @@ public class ControlActivity extends CoreActivity {
             case R.id.channel_down:
                 sendMessageToBLEDevice(mRemoteDevice.getCommandMap().get("KEY_CHANNELDOWN"));
                 break;
-            default:
+            case R.id.up:
+                sendMessageToBLEDevice(mRemoteDevice.getCommandMap().get("KEY_UP"));
                 break;
-        }
-    }
-
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Log.d(TAG, "onResume");
-//        if (!mBtAdapter.isEnabled()) {
-//            Log.i(TAG, "onResume - BT not enabled yet");
-//            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-//            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-//        }
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        Log.d(TAG, "onDestroy()");
-//        try {
-//            LocalBroadcastManager.getInstance(this).unregisterReceiver(UARTStatusChangeReceiver);
-//        } catch (Exception ignore) {
-//            Log.e(TAG, ignore.toString());
-//        }
-//        unbindService(mServiceConnection);
-//        IRApplication.mService.stopSelf();
-//        IRApplication.mService = null;
-//    }
-
-    // BLE
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-//            case REQUEST_SELECT_DEVICE:
-//                if (resultCode == Activity.RESULT_OK && data != null) {
-//                    String res = data.getStringExtra(BluetoothDevice.EXTRA_DEVICE);
-//                    mDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(res);
-//                    mBLEStatus = BLEStatus.CONNECTING;
-//                    IRApplication.mService.connect(res);
-//                    connectDisconnectTag = "Disconnect";
-//                    showToastLong("Connected to: " + res);
-//                }
-//                break;
-            case REQUEST_ENABLE_BT:
-                if (resultCode == Activity.RESULT_OK) {
-                    showToastLong("Bluetooth has turned on ");
-                } else {
-                    // User did not enable Bluetooth or an error occurred
-                    Log.d(TAG, "BT not enabled");
-                    showToastLong("Problem in BT Turning ON ");
-                    finish();
-                }
+            case R.id.down:
+                sendMessageToBLEDevice(mRemoteDevice.getCommandMap().get("KEY_DOWN"));
+                break;
+            case R.id.left:
+                sendMessageToBLEDevice(mRemoteDevice.getCommandMap().get("KEY_LEFT"));
+                break;
+            case R.id.right:
+                sendMessageToBLEDevice(mRemoteDevice.getCommandMap().get("KEY_RIGHT"));
+                break;
+            case R.id.enter:
+                sendMessageToBLEDevice(mRemoteDevice.getCommandMap().get("KEY_ENTER"));
                 break;
             default:
-                Log.e(TAG, "wrong request code");
                 break;
-        }
-    }
-
-    public enum BLEStatus {
-        CONNECTED, NOTCONNECTED, CONNECTING;
-    }
-
-    public BLEStatus mBLEStatus = BLEStatus.NOTCONNECTED;
-    private static final int REQUEST_SELECT_DEVICE = 1;
-    private static final int REQUEST_ENABLE_BT = 2;
-    private static final int UART_PROFILE_CONNECTED = 20;
-    private static final int UART_PROFILE_DISCONNECTED = 21;
-    private int mState = UART_PROFILE_DISCONNECTED;
-    public String connectDisconnectTag = "Connect";
-    private BluetoothDevice mDevice = null;
-    private BluetoothAdapter mBtAdapter = null;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            showToastLong("Response: " + msg);
-        }
-    };
-
-    //UART service connected/disconnected
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder rawBinder) {
-            IRApplication.mService = ((UartService.LocalBinder) rawBinder).getService();
-            Log.d(TAG, "onServiceConnected mService= " + IRApplication.mService);
-            if (!IRApplication.mService.initialize()) {
-                Log.e(TAG, "Unable to initialize Bluetooth");
-                finish();
-            }
-        }
-
-        public void onServiceDisconnected(ComponentName classname) {
-            ////     mService.disconnect(mDevice);
-            IRApplication.mService = null;
-        }
-    };
-    private final BroadcastReceiver UARTStatusChangeReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(UartService.ACTION_GATT_CONNECTED)) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Log.d(TAG, "UART_CONNECT_MSG");
-                        mBLEStatus = BLEStatus.CONNECTED;
-                        mState = UART_PROFILE_CONNECTED;
-                    }
-                });
-            }
-            if (action.equals(UartService.ACTION_GATT_DISCONNECTED)) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Log.d(TAG, "UART_DISCONNECT_MSG");
-                        mBLEStatus = BLEStatus.NOTCONNECTED;
-                        mState = UART_PROFILE_DISCONNECTED;
-                        IRApplication.mService.close();
-                    }
-                });
-            }
-            if (action.equals(UartService.ACTION_GATT_SERVICES_DISCOVERED)) {
-                if (IRApplication.mService != null)
-                    IRApplication.mService.enableTXNotification();
-            }
-            if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
-                final byte[] txValue = intent.getByteArrayExtra(UartService.EXTRA_DATA);
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            String text = new String(txValue, "UTF-8");
-//                         	showToast("Respones: " + currentDateTimeString + " " + text);
-                        } catch (Exception e) {
-                            Log.e(TAG, e.toString());
-                        }
-                    }
-                });
-            }
-            // TO DO: ?????????????????
-            if (action.equals(UartService.DEVICE_DOES_NOT_SUPPORT_UART)) {
-                showToastLong("Device doesn't support UART. Disconnecting");
-                IRApplication.mService.disconnect();
-            }
-        }
-    };
-
-    public void sendMessageToBLEDevice(String msg) {
-        if (IRApplication.mService == null) {
-            showToastLong("Service not available");
-            return;
-        }
-        try {
-            IRApplication.mService.writeRXCharacteristic(msg.getBytes("UTF-8"));
-            showToastLong("Send message " + msg);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(UartService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(UartService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(UartService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(UartService.ACTION_DATA_AVAILABLE);
-        intentFilter.addAction(UartService.DEVICE_DOES_NOT_SUPPORT_UART);
-        return intentFilter;
-    }
-
-    public void startBLEService() {
-        mBtAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBtAdapter == null) {
-            showToastLong("Bluetooth is not available");
-            finish();
-            return;
-        }
-        Intent bindIntent = new Intent(this, UartService.class);
-        bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        LocalBroadcastManager.getInstance(this).registerReceiver(UARTStatusChangeReceiver, makeGattUpdateIntentFilter());
-    }
-
-    public void scanBLE() {
-        if (!mBtAdapter.isEnabled()) {
-            Log.i(TAG, "onClick - BT not enabled yet");
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        } else {
-            if (connectDisconnectTag.equals("Connect")) {
-//                Intent newIntent = new Intent(this, ChooseDeviceActivity.class);
-//                startActivityForResult(newIntent, REQUEST_SELECT_DEVICE);
-//                connectDisconnectTag = "Disconnect";
-				showScanBLEDialog(new DialogScanBLEListener() {
-					@Override
-					public void onConnect(String address) {
-						mDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
-						mBLEStatus = BLEStatus.CONNECTING;
-						IRApplication.mService.connect(address);
-						connectDisconnectTag = "Disconnect";
-						showToastLong("Connected to: " + address);
-					}
-					@Override
-					public void onCancel() {
-
-					}
-				});
-            } else {
-                connectDisconnectTag = "Connect";
-                if (mDevice != null) {
-                    IRApplication.mService.disconnect();
-                }
-            }
         }
     }
 }
