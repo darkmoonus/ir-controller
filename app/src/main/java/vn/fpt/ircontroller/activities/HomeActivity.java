@@ -29,6 +29,7 @@ import vn.fpt.ircontroller.ble.ChooseDeviceActivity;
 import vn.fpt.ircontroller.cores.CoreActivity;
 import vn.fpt.ircontroller.customizes.MyAnimations;
 import vn.fpt.ircontroller.interfaces.DialogAddRoomListener;
+import vn.fpt.ircontroller.models.CustomButton;
 import vn.fpt.ircontroller.models.Device;
 import vn.fpt.ircontroller.models.DeviceType;
 import vn.fpt.ircontroller.models.Room;
@@ -36,10 +37,8 @@ import vn.fpt.ircontroller.models.Room;
 public class HomeActivity extends CoreActivity {
 
     private FloatingActionButton mAddRoom;
-    private LinearLayout mNormalBlock, mSearchBlock;
-    private ImageView mSetting, mSearch, mDelText;
-    private TextView mCancelSearch, mTitle;
-    private EditText mSearchEdit;
+    private ImageView mSetting, mNaviagate;
+    private TextView mTitle;
     public LinearLayout mEmptyView;
 
     public UltimateRecyclerView mListView;
@@ -93,14 +92,9 @@ public class HomeActivity extends CoreActivity {
     @Override
     protected void initViews() {
         mAddRoom = (FloatingActionButton) findViewById(R.id.add);
-        mNormalBlock = (LinearLayout) findViewById(R.id.normal_block);
-        mSearchBlock = (LinearLayout) findViewById(R.id.search_block);
-        mDelText = (ImageView) findViewById(R.id.del_text);
-        mSearch = (ImageView) findViewById(R.id.search_icon);
         mSetting = (ImageView) findViewById(R.id.setting);
+        mNaviagate = (ImageView) findViewById(R.id.navigate);
         mTitle = (TextView) findViewById(R.id.title);
-        mSearchEdit = (EditText) findViewById(R.id.search_edittext);
-        mCancelSearch = (TextView) findViewById(R.id.cancel_search);
         mEmptyView = (LinearLayout) findViewById(R.id.empty_view);
         mListView = (UltimateRecyclerView) findViewById(R.id.room_list);
     }
@@ -108,23 +102,8 @@ public class HomeActivity extends CoreActivity {
     @Override
     protected void initModels() {
         mTitle.setText(getResources().getString(R.string.title_activity_home));
-        mSearchEdit.setHint(getResources().getString(R.string.search_hint_activity_home));
-        mSearchEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        mNaviagate.setImageResource(R.mipmap.menu);
+        mSetting.setVisibility(View.GONE);
         readRoomListSharedPreference();
         initListView();
         checkEmptyList();
@@ -143,10 +122,8 @@ public class HomeActivity extends CoreActivity {
 
     @Override
     protected void initListeners() {
-        mDelText.setOnClickListener(this);
-        mSearch.setOnClickListener(this);
         mSetting.setOnClickListener(this);
-        mCancelSearch.setOnClickListener(this);
+        mNaviagate.setOnClickListener(this);
         mAddRoom.setOnClickListener(this);
     }
 
@@ -162,39 +139,18 @@ public class HomeActivity extends CoreActivity {
                 showAddRoomDialog(new DialogAddRoomListener() {
                     @Override
                     public void onYes(String name) {
-                        mListAdapter.addItem(new Room(name, new ArrayList<Device>()));
+                        mListAdapter.addItem(new Room(name, new ArrayList<Device>(), new ArrayList<CustomButton>()));
+                        mAddRoom.show();
                     }
+
                     @Override
                     public void onNo() {
 
                     }
                 });
                 break;
-            case R.id.cancel_search:
-                hideKeyboard();
-                mCancelSearch.setVisibility(View.GONE);
-                mSearchBlock.setVisibility(View.GONE);
-                mSetting.setVisibility(View.VISIBLE);
-                mNormalBlock.setVisibility(View.VISIBLE);
-                mSearchBlock.clearAnimation();
-                mCancelSearch.clearAnimation();
-                mSearchEdit.setText("");
-                break;
-            case R.id.del_text:
-                mSearchEdit.setText("");
-                break;
-            case R.id.search_icon:
-                showKeyboard();
-                mSearchBlock.startAnimation(MyAnimations.fromLeft(1000, 300));
-                mCancelSearch.startAnimation(MyAnimations.fromDown(200, 150));
-                mCancelSearch.setVisibility(View.VISIBLE);
-                mSearchBlock.setVisibility(View.VISIBLE);
-                mSetting.setVisibility(View.GONE);
-                mNormalBlock.setVisibility(View.GONE);
-                mSearchEdit.requestFocus();
-                break;
-            case R.id.setting:
-//                scanBLE();
+            case R.id.navigate:
+                finish();
                 break;
             default:
                 break;

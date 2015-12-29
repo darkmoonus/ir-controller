@@ -7,82 +7,26 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/navigate"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"
+        android:padding="18dp"
+        android:src="@mipmap/back" />
+
+    <vn.fpt.ircontroller.customizes.MyTextView
+        android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:id="@+id/search_block"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bound_action_bar"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <vn.fpt.ircontroller.customizes.MyEditText
-                android:id="@+id/search_edittext"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:background="@color/boundActionBar"
-                android:gravity="center_vertical"
-                android:hint="Search"
-                android:lines="1"
-                android:paddingLeft="10dp"
-                android:paddingRight="5dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textCursorDrawable="@null"
-                android:textSize="15dp" />
-
-            <ImageView
-                android:id="@+id/del_text"
-                android:layout_width="35dp"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="15dp"
-                android:paddingTop="10dp"
-                android:src="@mipmap/cancel" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/normal_block"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:visibility="visible">
-
-            <ImageView
-                android:id="@+id/search_icon"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:padding="@dimen/search_icon_padding"
-                android:src="@mipmap/search" />
-
-            <vn.fpt.ircontroller.customizes.MyTextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ellipsize="marquee"
-                android:gravity="center_vertical"
-                android:lines="1"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textColor="@color/white"
-                android:textSize="19sp" />
-        </LinearLayout>
-    </RelativeLayout>
+        android:layout_weight="1"
+        android:ellipsize="marquee"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="19sp" />
 
     <vn.fpt.ircontroller.customizes.MyTextView
         android:id="@+id/cancel_search"

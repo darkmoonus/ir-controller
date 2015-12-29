@@ -10,11 +10,18 @@ import java.util.ArrayList;
 public class Room {
     private String name;
     private ArrayList<Device> deviceList;
-    public Room(String name, ArrayList<Device> deviceList) {
+    private ArrayList<CustomButton> customButtonsList;
+    public Room(String name, ArrayList<Device> deviceList, ArrayList<CustomButton> customButtonsList) {
         this.name = name;
         this.deviceList = deviceList;
+        this.customButtonsList = customButtonsList;
     }
-
+    public ArrayList<CustomButton> getCustomButtonsList() {
+        return customButtonsList;
+    }
+    public void setCustomButtonsList(ArrayList<CustomButton> customButtonsList) {
+        this.customButtonsList = customButtonsList;
+    }
     public String getName() {
         return name;
     }

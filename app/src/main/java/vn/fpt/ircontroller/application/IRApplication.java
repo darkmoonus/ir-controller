@@ -26,8 +26,6 @@ public class IRApplication extends Application {
     public static ArrayList<DeviceRemote> mDeviceRemoteList = new ArrayList<>();
     public static UartService mService = null;
 
-
-
     private static IRApplication mInstance;
 
     public int getAppVersion() {

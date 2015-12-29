@@ -87,7 +87,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Da
     }
 
     public void deleteItem(int index) {
-        if (index != -1) {
+        if (index >= 0 && index <= dataSet.size()-1) {
             dataSet.remove(index);
             notifyItemRemoved(index);
             mActivity.checkEmptyList();

@@ -11,10 +11,13 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
@@ -23,14 +26,17 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import java.util.ArrayList;
 
 import vn.fpt.ircontroller.R;
+import vn.fpt.ircontroller.adapters.CustomButtonGridAdapter;
 import vn.fpt.ircontroller.adapters.DeviceListAdapter;
 import vn.fpt.ircontroller.adapters.RoomListAdapter;
 import vn.fpt.ircontroller.application.IRApplication;
 import vn.fpt.ircontroller.ble.ChooseDeviceActivity;
 import vn.fpt.ircontroller.cores.CoreActivity;
 import vn.fpt.ircontroller.customizes.MyAnimations;
+import vn.fpt.ircontroller.interfaces.DialogAddCustomButtonListener;
 import vn.fpt.ircontroller.interfaces.DialogAddDeviceListener;
 import vn.fpt.ircontroller.interfaces.DialogAddRoomListener;
+import vn.fpt.ircontroller.models.CustomButton;
 import vn.fpt.ircontroller.models.Device;
 import vn.fpt.ircontroller.models.DeviceType;
 import vn.fpt.ircontroller.models.Room;
@@ -38,14 +44,14 @@ import vn.fpt.ircontroller.models.Room;
 public class DevicesActivity extends CoreActivity {
 
     private FloatingActionButton mAddDevice;
-    private LinearLayout mNormalBlock, mSearchBlock;
-    private ImageView mSetting, mSearch, mDelText;
-    private TextView mCancelSearch, mTitle;
-    private EditText mSearchEdit;
+    private ImageView mSetting, mNaviagate;
+    private TextView mTitle;
     public LinearLayout mEmptyView;
 
     public UltimateRecyclerView mListView;
     private DeviceListAdapter mListAdapter;
+    private GridView mGrid;
+    private CustomButtonGridAdapter mGridAdapter;
 
     private int mPosition;
 
@@ -97,43 +103,53 @@ public class DevicesActivity extends CoreActivity {
     @Override
     protected void initViews() {
         mAddDevice = (FloatingActionButton) findViewById(R.id.add);
-        mNormalBlock = (LinearLayout) findViewById(R.id.normal_block);
-        mSearchBlock = (LinearLayout) findViewById(R.id.search_block);
-        mDelText = (ImageView) findViewById(R.id.del_text);
-        mSearch = (ImageView) findViewById(R.id.search_icon);
         mSetting = (ImageView) findViewById(R.id.setting);
         mTitle = (TextView) findViewById(R.id.title);
-        mSearchEdit = (EditText) findViewById(R.id.search_edittext);
-        mCancelSearch = (TextView) findViewById(R.id.cancel_search);
+        mNaviagate = (ImageView) findViewById(R.id.navigate);
         mEmptyView = (LinearLayout) findViewById(R.id.empty_view);
         mListView = (UltimateRecyclerView) findViewById(R.id.list);
+        mGrid = (GridView) findViewById(R.id.grid);
     }
 
     @Override
     protected void initModels() {
         mPosition = Integer.parseInt(getIntent().getStringExtra("Position"));
         mTitle.setText(IRApplication.mRoomList.get(mPosition).getName());
-        mSearchEdit.setHint(getResources().getString(R.string.search_hint_activity_devices));
-        mSearchEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         initListView();
+        initGridView();
         checkEmptyList();
     }
 
+    public void initGridView() {
+        if(IRApplication.mRoomList.get(mPosition).getCustomButtonsList() == null ||
+                IRApplication.mRoomList.get(mPosition).getCustomButtonsList().size() == 0 ) {
+            IRApplication.mRoomList.get(mPosition).setCustomButtonsList(new ArrayList<CustomButton>());
+            IRApplication.mRoomList.get(mPosition).getCustomButtonsList().add(new CustomButton("_@#@_",
+                    new ArrayList<Device>(), new ArrayList<String>()));
+        }
+        final ArrayList<CustomButton> customButtonsList = IRApplication.mRoomList.get(mPosition).getCustomButtonsList();
+
+        mGridAdapter = new CustomButtonGridAdapter(this, customButtonsList);
+        mGrid.setAdapter(mGridAdapter);
+        mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Toast.makeText(getApplicationContext(), ((TextView) v.findViewById(R.id.label)).getText(), Toast.LENGTH_SHORT).show();
+                if(position == customButtonsList.size()-1) {
+                    showAddCustomButtonDialog(new DialogAddCustomButtonListener() {
+                        @Override
+                        public void onYes(CustomButton c) {
+                            mGridAdapter.addItem(c);
+                            mGrid.setAdapter(mGridAdapter);
+                        }
+                        @Override
+                        public void onNo() {
+
+                        }
+                    });
+                }
+            }
+        });
+    }
 
     public void checkEmptyList() {
         if(mListAdapter.getItemCount() == 0) {
@@ -147,10 +163,8 @@ public class DevicesActivity extends CoreActivity {
 
     @Override
     protected void initListeners() {
-        mDelText.setOnClickListener(this);
-        mSearch.setOnClickListener(this);
         mSetting.setOnClickListener(this);
-        mCancelSearch.setOnClickListener(this);
+        mNaviagate.setOnClickListener(this);
         mAddDevice.setOnClickListener(this);
     }
 
@@ -175,28 +189,8 @@ public class DevicesActivity extends CoreActivity {
                     }
                 });
                 break;
-            case R.id.cancel_search:
-                hideKeyboard();
-                mCancelSearch.setVisibility(View.GONE);
-                mSearchBlock.setVisibility(View.GONE);
-                mSetting.setVisibility(View.VISIBLE);
-                mNormalBlock.setVisibility(View.VISIBLE);
-                mSearchBlock.clearAnimation();
-                mCancelSearch.clearAnimation();
-                mSearchEdit.setText("");
-                break;
-            case R.id.del_text:
-                mSearchEdit.setText("");
-                break;
-            case R.id.search_icon:
-                showKeyboard();
-                mSearchBlock.startAnimation(MyAnimations.fromLeft(1000, 300));
-                mCancelSearch.startAnimation(MyAnimations.fromDown(200, 150));
-                mCancelSearch.setVisibility(View.VISIBLE);
-                mSearchBlock.setVisibility(View.VISIBLE);
-                mSetting.setVisibility(View.GONE);
-                mNormalBlock.setVisibility(View.GONE);
-                mSearchEdit.requestFocus();
+            case R.id.navigate:
+                finish();
                 break;
             case R.id.setting:
 //                scanBLE();

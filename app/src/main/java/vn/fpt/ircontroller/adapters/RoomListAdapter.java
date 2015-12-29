@@ -77,7 +77,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.DataOb
     }
 
     public void deleteItem(int index) {
-        if (index != -1) {
+        if (index >= 0 && index <= dataSet.size()-1) {
             dataSet.remove(index);
             notifyItemRemoved(index);
             mActivity.checkEmptyList();

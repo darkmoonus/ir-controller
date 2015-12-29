@@ -55,9 +55,11 @@ import com.google.gson.reflect.TypeToken;
 import vn.fpt.ircontroller.application.IRApplication;
 import vn.fpt.ircontroller.ble.ChooseDeviceActivity;
 import vn.fpt.ircontroller.ble.UartService;
+import vn.fpt.ircontroller.dialogs.DialogAddCustomButton;
 import vn.fpt.ircontroller.dialogs.DialogAddDevice;
 import vn.fpt.ircontroller.dialogs.DialogAddRoom;
 import vn.fpt.ircontroller.dialogs.DialogScanBLE;
+import vn.fpt.ircontroller.interfaces.DialogAddCustomButtonListener;
 import vn.fpt.ircontroller.interfaces.DialogAddDeviceListener;
 import vn.fpt.ircontroller.interfaces.DialogAddRoomListener;
 import vn.fpt.ircontroller.interfaces.DialogScanBLEListener;
@@ -106,6 +108,17 @@ public abstract class CoreActivity extends AppCompatActivity implements Serializ
 			public void run() {
 				removePreviousDialog();
 				mDialog = DialogAddRoom.newInstance(CoreActivity.this, mListener);
+				mDialog.show(getSupportFragmentManager(), TAG);
+			}
+		});
+		return mDialog;
+	}
+	public DialogFragment showAddCustomButtonDialog(final DialogAddCustomButtonListener mListener) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				removePreviousDialog();
+				mDialog = DialogAddCustomButton.newInstance(CoreActivity.this, mListener);
 				mDialog.show(getSupportFragmentManager(), TAG);
 			}
 		});

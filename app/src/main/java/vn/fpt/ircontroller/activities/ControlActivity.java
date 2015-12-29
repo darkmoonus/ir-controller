@@ -32,8 +32,6 @@ import vn.fpt.ircontroller.models.Device;
 
 public class ControlActivity extends CoreActivity {
     private String TAG = getClass().getSimpleName();
-
-
     private ImageView power;
     private TextView code1, code2, code3, code4, code5, code6, code7, code8, code9, mute, volumeUp, volumeDown, channelUp, channelDown;
     private Device mRemoteDevice;
@@ -48,7 +46,7 @@ public class ControlActivity extends CoreActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        startBLEService();
+//        startBLEService();
 
         initViews();
         initModels();
@@ -82,9 +80,9 @@ public class ControlActivity extends CoreActivity {
         Intent i = getIntent();
         String[] arr = i.getStringExtra("Position").split("_");
         mRemoteDevice = IRApplication.mRoomList.get(Integer.parseInt(arr[0])).getDeviceList().get(Integer.parseInt(arr[1]));
-        if (IRApplication.mService == null) {
-            scanBLE();
-        }
+//        if (IRApplication.mService == null) {
+//            scanBLE();
+//        }
     }
 
     @Override
@@ -164,31 +162,31 @@ public class ControlActivity extends CoreActivity {
         }
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume");
-        if (!mBtAdapter.isEnabled()) {
-            Log.i(TAG, "onResume - BT not enabled yet");
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy()");
-        try {
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(UARTStatusChangeReceiver);
-        } catch (Exception ignore) {
-            Log.e(TAG, ignore.toString());
-        }
-        unbindService(mServiceConnection);
-        IRApplication.mService.stopSelf();
-        IRApplication.mService = null;
-    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Log.d(TAG, "onResume");
+//        if (!mBtAdapter.isEnabled()) {
+//            Log.i(TAG, "onResume - BT not enabled yet");
+//            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+//        }
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        Log.d(TAG, "onDestroy()");
+//        try {
+//            LocalBroadcastManager.getInstance(this).unregisterReceiver(UARTStatusChangeReceiver);
+//        } catch (Exception ignore) {
+//            Log.e(TAG, ignore.toString());
+//        }
+//        unbindService(mServiceConnection);
+//        IRApplication.mService.stopSelf();
+//        IRApplication.mService = null;
+//    }
 
     // BLE
     @Override
