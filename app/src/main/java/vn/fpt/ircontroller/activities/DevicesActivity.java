@@ -77,11 +77,12 @@ public class DevicesActivity extends CoreBLEActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_devices);
 
-
         initViews();
         initModels();
         initListeners();
         initAnimations();
+
+        scanBLE();
     }
 
     private int mScroll = -5;

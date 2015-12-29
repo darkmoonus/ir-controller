@@ -4,30 +4,6 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginBottom="10dp"
-            android:src="@mipmap/none_device" />
-
-        <vn.fpt.ircontroller.customizes.MyTextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="?attr/actionBarSize"
-            android:gravity="center"
-            android:text="@string/emptyDevices"
-            android:textColor="@color/colorPrimary"
-            android:textSize="15dp" />
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -35,7 +11,7 @@
         <vn.fpt.ircontroller.customizes.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/yourCustomButton"
@@ -58,19 +34,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
             android:text="@string/yourDeviceList"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20dp" />
 
-        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
-            android:id="@+id/list"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:layout_weight="1" />
+            android:layout_weight="1">
 
+            <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:id="@+id/empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@mipmap/none_device" />
+
+                <vn.fpt.ircontroller.customizes.MyTextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="?attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="@string/emptyDevices"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

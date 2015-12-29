@@ -25,6 +25,7 @@ public class IRApplication extends Application {
     public static ArrayList<Room> mRoomList = new ArrayList<>();
     public static ArrayList<DeviceRemote> mDeviceRemoteList = new ArrayList<>();
     public static UartService mService = null;
+    public static boolean isConnected = false;
 
     private static IRApplication mInstance;
 

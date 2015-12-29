@@ -124,17 +124,7 @@ public abstract class CoreActivity extends AppCompatActivity implements Serializ
 		});
 		return mDialog;
 	}
-	public DialogFragment showAddDeviceDialog(final DialogAddDeviceListener mListener) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				removePreviousDialog();
-				mDialog = DialogAddDevice.newInstance(CoreActivity.this, mListener);
-				mDialog.show(getSupportFragmentManager(), TAG);
-			}
-		});
-		return mDialog;
-	}
+
 
 	public void hideKeyboard() {
 		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -143,15 +133,6 @@ public abstract class CoreActivity extends AppCompatActivity implements Serializ
 			view = new View(this);
 		}
 		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-	}
-
-	public void hide_keyboard() {
-	    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-	    View view = getCurrentFocus();
-	    if(view == null) {
-	        view = new View(this);
-	    }
-	    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 	public void showKeyboard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -233,144 +214,13 @@ public abstract class CoreActivity extends AppCompatActivity implements Serializ
 		logi(new StringBuilder().append("Done. Remove previous dialog. TAG = ").append(TAG).toString());
 	}
 	private DialogFragment mDialog;
-//	public DialogFragment showProgressDialog(final String msg) {
-//		runOnUiThread(new Runnable() {
-//			@Override
-//			public void run() {
-//				removePreviousDialog();
-//				mDialog = DialogProgress.newInstance(CoreActivity.this, msg);
-//				mDialog.show(getSupportFragmentManager(), TAG);
-//				logi(new StringBuilder().append("Done. Show progressDialog : ").append(msg).toString());
-//			}
-//		});
-//		return mDialog;
-//	}
-//	public DialogFragment showYesNoDialog(final String msg, final OnDialogYesNoListener mListener) {
-//		runOnUiThread(new Runnable() {
-//			@Override
-//			public void run() {
-//				removePreviousDialog();
-//				mDialog = DialogYesNo.newInstance(CoreActivity.this, msg, mListener);
-//				mDialog.show(getSupportFragmentManager(), TAG);
-//				logi(new StringBuilder().append("Done. Show yesNoDialog : ").append(msg).toString());
-//			}
-//		});
-//		return mDialog;
-//	}
-	
 	public String TAG_JSONOBJ_REQUEST = "jsonobject_request";
 	public String TAG_JSONARR_REQUEST = "jsonarrayobject_request";
 	public String TAG_STRING_REQUEST = "string_request";
 	public void cancelAllRequestWithTag(String tag) {
 		IRApplication.getInstance().getRequestQueue().cancelAll(tag);
 	}
-//	public void makeJsonObjectRequest(String url, final JSONObjectRequestListener mListener){
-//		mListener.onBefore();
-//		JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Method.GET, url, null,
-//				new Response.Listener<JSONObject>() {
-//					@Override
-//					public void onResponse(JSONObject response) {
-//						mListener.onResponse(response);
-//					}
-//				}, new Response.ErrorListener() {
-//					@Override
-//					public void onErrorResponse(VolleyError error) {
-//						mListener.onError(error);
-//					}
-//				}){
-//			/* Passing some request headers*/
-//			@Override
-//			public Map<String, String> getHeaders()throws AuthFailureError {
-//				HashMap<String, String> headers = new HashMap<String, String>();
-//				headers.put("Content-Type", "application/json");
-//				return headers;
-//			}
-//
-//			@Override
-//			protected Map<String, String> getParams()throws AuthFailureError {
-//				Map<String, String> params = new HashMap<String, String>();
-//				params.put("name", "Androidhive");
-//				params.put("email", "abc@androidhive.info");
-//				params.put("pass", "password123");
-//				return  params;
-//		   }
-//		} ;
-//		IRApplication.getInstance().addToRequestQueue(jsonObjRequest, TAG_JSONOBJ_REQUEST);
-//	}
-//	public void makeJsonArrayRequest(String url, final JSONArrayRequestListener mListener){
-//		mListener.onBefore();
-//		JsonArrayRequest jsonArrRequest = new JsonArrayRequest(url,
-//				new Response.Listener<JSONArray>() {
-//					@Override
-//					public void onResponse(JSONArray response) {
-//						mListener.onResponse(response);
-//					}
-//				}, new Response.ErrorListener() {
-//					@Override
-//					public void onErrorResponse(VolleyError error) {
-//						mListener.onError(error);
-//					}
-//				});
-//		IRApplication.getInstance().addToRequestQueue(jsonArrRequest, TAG_JSONARR_REQUEST);
-//	}
-//	public void makeStringRequest(String url, final StringRequestListener mListener){
-//		mListener.onBefore();
-//		StringRequest stringRequest = new StringRequest(Method.GET, url,
-//				new Response.Listener<String>() {
-//			@Override
-//			public void onResponse(String response) {
-//				mListener.onResponse(response);
-//			}
-//		}, new Response.ErrorListener() {
-//			@Override
-//			public void onErrorResponse(VolleyError error) {
-//				mListener.onErrorResponse(error);
-//			}
-//		});
-//		IRApplication.getInstance().addToRequestQueue(stringRequest, TAG_STRING_REQUEST);
-//	}
-//
-//	public void makeImageRequest(String url, final ImageRequestListener mListener){
-//		mListener.onBefore();
-//		ImageLoader imageLoader = IRApplication.getInstance().getImageLoader();
-//		imageLoader.get(url, new ImageListener() {
-//			@Override
-//			public void onErrorResponse(VolleyError error) {
-//				mListener.onErrorResponse(error);
-//			}
-//			@Override
-//			public void onResponse(ImageContainer paramImageContainer, boolean paramBoolean) {
-//				mListener.onResponse(paramImageContainer, paramBoolean);
-////				imageView.setImageBitmap(paramImageContainer.getBitmap());
-//			}
-//		});
-//	}
 
-	/*
-	 * Get latitude and longtitude from address.
-	 * @return lattitude|longtitude or null if invalid
-	 */
-	@SuppressWarnings("finally")
-	public String getAddressFromLocation(final String locationAddress,
-			final Context context) {
-		Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-		String result = null;
-		try {
-			List<Address> addressList = geocoder.getFromLocationName(locationAddress, 1);
-			if (addressList != null && addressList.size() > 0) {
-				Address address = addressList.get(0);
-				StringBuilder sb = new StringBuilder();
-				sb.append(address.getLatitude()).append(",");
-				sb.append(address.getLongitude());
-				result = sb.toString();
-			}
-		} catch (IOException e) {
-			loge("Unable to connect to Geocoder");
-		} finally {
-			return result;
-		}
-	}
-	
 	protected abstract void initViews();
 	protected abstract void initModels();
 	protected abstract void initListeners();

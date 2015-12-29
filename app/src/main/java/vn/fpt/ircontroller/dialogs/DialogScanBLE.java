@@ -115,9 +115,6 @@ public class DialogScanBLE extends DialogFragment implements OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BluetoothDevice device = deviceList.get(position);
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
-//                Bundle b = new Bundle();
-//                b.putString(BluetoothDevice.EXTRA_DEVICE, deviceList.get(position).getAddress());
-//                mContext.setResult(Activity.RESULT_OK, new Intent().putExtras(b));
                 mListener.onConnect(deviceList.get(position).getAddress());
                 dismiss();
             }

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,8 @@ import java.io.UnsupportedEncodingException;
 
 import vn.fpt.ircontroller.application.IRApplication;
 import vn.fpt.ircontroller.ble.UartService;
+import vn.fpt.ircontroller.dialogs.DialogAddDevice;
+import vn.fpt.ircontroller.interfaces.DialogAddDeviceListener;
 import vn.fpt.ircontroller.interfaces.DialogScanBLEListener;
 
 /**
@@ -55,11 +58,6 @@ public class CoreBLEActivity extends CoreActivity {
 
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
     private String TAG = getClass().getSimpleName();
     @Override
     protected void onResume() {
@@ -86,6 +84,7 @@ public class CoreBLEActivity extends CoreActivity {
             IRApplication.mService.stopSelf();
             IRApplication.mService = null;
         }
+        IRApplication.isConnected = false;
     }
 
     // BLE
@@ -97,7 +96,6 @@ public class CoreBLEActivity extends CoreActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     showToastLong("Bluetooth has turned on ");
                 } else {
-                    // User did not enable Bluetooth or an error occurred
                     Log.d(TAG, "BT not enabled");
                     showToastLong("Problem in BT Turning ON ");
                     finish();
@@ -107,6 +105,11 @@ public class CoreBLEActivity extends CoreActivity {
                 Log.e(TAG, "wrong request code");
                 break;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     public enum BLEStatus {
@@ -119,7 +122,6 @@ public class CoreBLEActivity extends CoreActivity {
     private static final int UART_PROFILE_CONNECTED = 20;
     private static final int UART_PROFILE_DISCONNECTED = 21;
     private int mState = UART_PROFILE_DISCONNECTED;
-    public String connectDisconnectTag = "Connect";
     private BluetoothDevice mDevice = null;
     private BluetoothAdapter mBtAdapter = null;
     private Handler mHandler = new Handler() {
@@ -233,14 +235,14 @@ public class CoreBLEActivity extends CoreActivity {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         } else {
-            if (connectDisconnectTag.equals("Connect")) {
+            if (!IRApplication.isConnected) {
                 showScanBLEDialog(new DialogScanBLEListener() {
                     @Override
                     public void onConnect(String address) {
                         mDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
                         mBLEStatus = BLEStatus.CONNECTING;
                         IRApplication.mService.connect(address);
-                        connectDisconnectTag = "Disconnect";
+                        IRApplication.isConnected = true;
                         showToastLong("Connected to: " + address);
                     }
                     @Override
@@ -249,11 +251,25 @@ public class CoreBLEActivity extends CoreActivity {
                     }
                 });
             } else {
-                connectDisconnectTag = "Connect";
                 if (mDevice != null) {
                     IRApplication.mService.disconnect();
                 }
+                IRApplication.isConnected = false;
             }
         }
+    }
+
+
+    private DialogFragment mDialog;
+    public DialogFragment showAddDeviceDialog(final DialogAddDeviceListener mListener) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                removePreviousDialog();
+                mDialog = DialogAddDevice.newInstance(CoreBLEActivity.this, mListener);
+                mDialog.show(getSupportFragmentManager(), TAG);
+            }
+        });
+        return mDialog;
     }
 }

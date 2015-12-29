@@ -90,6 +90,10 @@ public class SplashActivity extends CoreActivity {
     }
 
     public String getDataFromHex(String data) {
+        if(data.length() == 5) {
+            data = data.substring(0, 2) + "0" + data.substring(2, 5);
+        }
+        loge("get hex: " + data);
         StringBuilder sb = new StringBuilder();
         sb.append(Integer.parseInt(data.substring(4, 6), 16));
         sb.append(",");
@@ -98,6 +102,7 @@ public class SplashActivity extends CoreActivity {
     }
 
     public void initCmdMap(String path) {
+        loge("Init cmdmap: " + path);
         String brand = "UNDEFINE";
         DeviceType type = typeMap.get(path.split("_")[0]);
         HashMap<String, String> cmdMap = new HashMap<>();

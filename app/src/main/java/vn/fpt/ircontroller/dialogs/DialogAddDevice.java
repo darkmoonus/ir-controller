@@ -27,6 +27,7 @@ import vn.fpt.ircontroller.adapters.SpinnerBrandAdapter;
 import vn.fpt.ircontroller.adapters.SpinnerTypeAdapter;
 import vn.fpt.ircontroller.application.IRApplication;
 import vn.fpt.ircontroller.cores.CoreActivity;
+import vn.fpt.ircontroller.cores.CoreBLEActivity;
 import vn.fpt.ircontroller.customizes.MyEditText;
 import vn.fpt.ircontroller.interfaces.DialogAddDeviceListener;
 import vn.fpt.ircontroller.interfaces.DialogAddRoomListener;
@@ -34,7 +35,7 @@ import vn.fpt.ircontroller.models.Device;
 import vn.fpt.ircontroller.models.DeviceRemote;
 
 public class DialogAddDevice extends DialogFragment implements OnClickListener {
-    public CoreActivity mContext;
+    public CoreBLEActivity mContext;
     public LayoutInflater mInflater;
     protected Dialog mDialog;
     public DialogAddDeviceListener mListener;
@@ -49,13 +50,13 @@ public class DialogAddDevice extends DialogFragment implements OnClickListener {
     private LinearLayout mChoosePower, mLayout;
     private DeviceRemote mChosenDevice;
 
-    public DialogAddDevice(CoreActivity context, DialogAddDeviceListener listener) {
+    public DialogAddDevice(CoreBLEActivity context, DialogAddDeviceListener listener) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mListener = listener;
     }
 
-    public static DialogAddDevice newInstance(CoreActivity context, DialogAddDeviceListener listener) {
+    public static DialogAddDevice newInstance(CoreBLEActivity context, DialogAddDeviceListener listener) {
         DialogAddDevice dialog = new DialogAddDevice(context, listener);
         Bundle bundle = new Bundle();
         dialog.setArguments(bundle);
@@ -124,6 +125,7 @@ public class DialogAddDevice extends DialogFragment implements OnClickListener {
                         powerList.get(ii).setImageResource(R.mipmap.power);
                         mChosenDevice = deviceRemoteList.get(ii);
                         mContext.showToastLong("Send: " + mChosenDevice.getCommandMap().get("KEY_POWER"));
+                        mContext.sendMessageToBLEDevice(mChosenDevice.getCommandMap().get("KEY_POWER"));
                         for (int j = 0; j < powerList.size(); j++) {
                             if (j != ii) {
                                 powerList.get(j).setImageResource(R.mipmap.power_gray);
