@@ -43,6 +43,7 @@ public class CustomButtonGridAdapter extends BaseAdapter {
     public void removeItem(int index) {
         dataSet.remove(index);
         notifyDataSetChanged();
+        mActivity.saveRoomListSharedPreference();
     }
     public void addItem(CustomButton c) {
         dataSet.add(0, c);
@@ -54,8 +55,8 @@ public class CustomButtonGridAdapter extends BaseAdapter {
         return dataSet.size();
     }
     @Override
-    public Object getItem(int position) {
-        return null;
+    public CustomButton getItem(int position) {
+        return dataSet.get(position);
     }
     @Override
     public long getItemId(int position) {

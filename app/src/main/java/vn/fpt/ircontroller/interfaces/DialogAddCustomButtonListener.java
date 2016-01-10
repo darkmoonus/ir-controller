@@ -8,4 +8,5 @@ import vn.fpt.ircontroller.models.CustomButton;
 public interface DialogAddCustomButtonListener {
     public void onYes(CustomButton c);
     public void onNo();
+    public void onDelete();
 }

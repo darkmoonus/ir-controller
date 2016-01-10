@@ -201,6 +201,7 @@ public class CoreBLEActivity extends CoreActivity {
             try {
                 IRApplication.mService.writeRXCharacteristic(msg.getBytes("UTF-8"));
                 showToastLong("Send message " + msg);
+                loge("Send message " + msg);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

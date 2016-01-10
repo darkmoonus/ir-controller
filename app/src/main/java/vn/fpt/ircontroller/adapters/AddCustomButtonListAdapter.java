@@ -20,10 +20,10 @@ import vn.fpt.ircontroller.activities.HomeActivity;
 import vn.fpt.ircontroller.cores.CoreActivity;
 import vn.fpt.ircontroller.models.Room;
 
-public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.DataObjectHolder> {
+public class AddCustomButtonListAdapter extends RecyclerView.Adapter<String> {
     private ArrayList<Room> dataSet;
     private HomeActivity mActivity;
-    public RoomListAdapter(ArrayList<Room> myDataSet, HomeActivity mActivity) {
+    public AddCustomButtonListAdapter(ArrayList<Room> myDataSet, HomeActivity mActivity) {
         this.mActivity = mActivity;
         this.dataSet = myDataSet;
     }
@@ -36,7 +36,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.DataOb
 
     @Override
     public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_room_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_add_custom_button, parent, false);
         return new DataObjectHolder(view, viewType);
     }
 

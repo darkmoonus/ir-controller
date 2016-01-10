@@ -150,11 +150,37 @@ public class DevicesActivity extends CoreBLEActivity {
 
         mGridAdapter = new CustomButtonGridAdapter(this, customButtonsList);
         mGrid.setAdapter(mGridAdapter);
+        mGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                if(position != mGridAdapter.getCount()-1) {
+                    showAddCustomButtonDialog(mGridAdapter.getItem(position), true, new DialogAddCustomButtonListener() {
+                        @Override
+                        public void onYes(CustomButton c) {
+                            mGridAdapter.getItem(position).setName(c.getName());
+                            mGridAdapter.getItem(position).setCommandList(c.getCommandList());
+                            mGridAdapter.getItem(position).setDevicesList(c.getDevicesList());
+                            mGrid.setAdapter(mGridAdapter);
+                        }
+                        @Override
+                        public void onNo() {
+
+                        }
+                        @Override
+                        public void onDelete() {
+                            mGridAdapter.removeItem(position);
+                            mGrid.setAdapter(mGridAdapter);
+                        }
+                    });
+
+                }
+                return false;
+            }
+        });
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getApplicationContext(), ((TextView) v.findViewById(R.id.label)).getText(), Toast.LENGTH_SHORT).show();
                 if(position == customButtonsList.size()-1) {
-                    showAddCustomButtonDialog(new DialogAddCustomButtonListener() {
+                    showAddCustomButtonDialog(null, false, new DialogAddCustomButtonListener() {
                         @Override
                         public void onYes(CustomButton c) {
                             mGridAdapter.addItem(c);
@@ -164,8 +190,16 @@ public class DevicesActivity extends CoreBLEActivity {
                         public void onNo() {
 
                         }
+                        @Override
+                        public void onDelete() {
+
+                        }
                     });
-                }
+                } else {
+                    for(String s : mGridAdapter.getItem(position).getCommandList()) {
+                        sendMessageToBLEDevice(s);
+                    }
+                } 
             }
         });
     }

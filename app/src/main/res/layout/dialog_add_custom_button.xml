@@ -21,6 +21,7 @@
             android:src="@mipmap/room" />
 
         <vn.fpt.ircontroller.customizes.MyTextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
@@ -33,19 +34,58 @@
         android:id="@+id/room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
-        android:lines="1"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/bound_edittext"
         android:gravity="left|top"
         android:hint="@string/buttonName"
         android:inputType="text"
+        android:lines="1"
         android:padding="10dp"
         android:textColor="@color/gray"
         android:textCursorDrawable="@null"
         android:textSize="16dp" />
+
+    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/device_name"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1" />
+
+        <Spinner
+            android:id="@+id/command"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/add" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="300dp"
@@ -61,6 +101,16 @@
             android:text="@string/cancel"
             android:textColor="@color/gray"
             android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackground"
+            android:text="@string/delete"
+            android:textColor="@color/red"
+            android:textSize="15dp"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/add"

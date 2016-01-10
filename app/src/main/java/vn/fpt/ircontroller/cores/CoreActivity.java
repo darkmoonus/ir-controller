@@ -63,6 +63,7 @@ import vn.fpt.ircontroller.interfaces.DialogAddCustomButtonListener;
 import vn.fpt.ircontroller.interfaces.DialogAddDeviceListener;
 import vn.fpt.ircontroller.interfaces.DialogAddRoomListener;
 import vn.fpt.ircontroller.interfaces.DialogScanBLEListener;
+import vn.fpt.ircontroller.models.CustomButton;
 import vn.fpt.ircontroller.models.Room;
 
 public abstract class CoreActivity extends AppCompatActivity implements Serializable, OnClickListener {
@@ -113,12 +114,12 @@ public abstract class CoreActivity extends AppCompatActivity implements Serializ
 		});
 		return mDialog;
 	}
-	public DialogFragment showAddCustomButtonDialog(final DialogAddCustomButtonListener mListener) {
+	public DialogFragment showAddCustomButtonDialog(final CustomButton c, final boolean canDelete, final DialogAddCustomButtonListener mListener) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				removePreviousDialog();
-				mDialog = DialogAddCustomButton.newInstance(CoreActivity.this, mListener);
+				mDialog = DialogAddCustomButton.newInstance(c, canDelete, CoreActivity.this, mListener);
 				mDialog.show(getSupportFragmentManager(), TAG);
 			}
 		});
