@@ -17,9 +17,11 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 
+import vn.fpt.ircontroller.R;
 import vn.fpt.ircontroller.application.IRApplication;
 import vn.fpt.ircontroller.ble.UartService;
 import vn.fpt.ircontroller.dialogs.DialogAddDevice;
@@ -34,7 +36,6 @@ public class CoreBLEActivity extends CoreActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-
         startBLEService();
     }
 
@@ -190,13 +191,18 @@ public class CoreBLEActivity extends CoreActivity {
             if (action.equals(UartService.DEVICE_DOES_NOT_SUPPORT_UART)) {
                 showToastLong("Device doesn't support UART. Disconnecting");
                 IRApplication.mService.disconnect();
+                IRApplication.isConnected = false;
+                TextView t = (TextView) findViewById(R.id.connected_status);
+                if(t != null) {
+                    t.setText(getResources().getString(R.string.disconnected));
+                }
             }
         }
     };
 
     public void sendMessageToBLEDevice(String msg) {
-        if (IRApplication.mService == null) {
-            scanBLE();
+        if (IRApplication.mService == null || !IRApplication.isConnected) {
+            scanBLE(null);
         } else {
             try {
                 IRApplication.mService.writeRXCharacteristic(msg.getBytes("UTF-8"));
@@ -230,7 +236,7 @@ public class CoreBLEActivity extends CoreActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(UARTStatusChangeReceiver, makeGattUpdateIntentFilter());
     }
 
-    public void scanBLE() {
+    public void scanBLE(final TextView status) {
         if (!mBtAdapter.isEnabled()) {
             Log.i(TAG, "onClick - BT not enabled yet");
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -244,6 +250,9 @@ public class CoreBLEActivity extends CoreActivity {
                         mBLEStatus = BLEStatus.CONNECTING;
                         IRApplication.mService.connect(address);
                         IRApplication.isConnected = true;
+                        if(status != null) {
+                            status.setText(getResources().getString(R.string.connected));
+                        }
                         showToastLong("Connected to: " + address);
                     }
                     @Override
@@ -255,7 +264,11 @@ public class CoreBLEActivity extends CoreActivity {
                 if (mDevice != null) {
                     IRApplication.mService.disconnect();
                 }
+                if(status != null) {
+                    status.setText(getResources().getString(R.string.disconnected));
+                }
                 IRApplication.isConnected = false;
+                showToastLong("disconnected");
             }
         }
     }

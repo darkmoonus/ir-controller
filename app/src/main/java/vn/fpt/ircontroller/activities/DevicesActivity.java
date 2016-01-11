@@ -1,62 +1,31 @@
 package vn.fpt.ircontroller.activities;
 
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
 import com.marshalchen.ultimaterecyclerview.ObservableScrollViewCallbacks;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import vn.fpt.ircontroller.R;
 import vn.fpt.ircontroller.adapters.CustomButtonGridAdapter;
 import vn.fpt.ircontroller.adapters.DeviceListAdapter;
-import vn.fpt.ircontroller.adapters.RoomListAdapter;
 import vn.fpt.ircontroller.application.IRApplication;
-import vn.fpt.ircontroller.ble.ChooseDeviceActivity;
-import vn.fpt.ircontroller.ble.UartService;
-import vn.fpt.ircontroller.cores.CoreActivity;
 import vn.fpt.ircontroller.cores.CoreBLEActivity;
-import vn.fpt.ircontroller.customizes.MyAnimations;
+import vn.fpt.ircontroller.dialogs.DialogAddCustomButton;
 import vn.fpt.ircontroller.interfaces.DialogAddCustomButtonListener;
 import vn.fpt.ircontroller.interfaces.DialogAddDeviceListener;
-import vn.fpt.ircontroller.interfaces.DialogAddRoomListener;
-import vn.fpt.ircontroller.interfaces.DialogScanBLEListener;
 import vn.fpt.ircontroller.models.CustomButton;
 import vn.fpt.ircontroller.models.Device;
-import vn.fpt.ircontroller.models.DeviceType;
-import vn.fpt.ircontroller.models.Room;
 
 public class DevicesActivity extends CoreBLEActivity {
     private String TAG = getClass().getSimpleName();
@@ -69,6 +38,7 @@ public class DevicesActivity extends CoreBLEActivity {
     private DeviceListAdapter mListAdapter;
     private GridView mGrid;
     private CustomButtonGridAdapter mGridAdapter;
+    private TextView mConnectedStatus;
 
     private int mPosition;
 
@@ -82,7 +52,8 @@ public class DevicesActivity extends CoreBLEActivity {
         initListeners();
         initAnimations();
 
-        scanBLE();
+        // scna BLE saved address
+        scanBLE(mConnectedStatus);
     }
 
     private int mScroll = -5;
@@ -128,12 +99,19 @@ public class DevicesActivity extends CoreBLEActivity {
         mEmptyView = (LinearLayout) findViewById(R.id.empty_view);
         mListView = (UltimateRecyclerView) findViewById(R.id.list);
         mGrid = (GridView) findViewById(R.id.grid);
+        mConnectedStatus = (TextView) findViewById(R.id.connected_status);
     }
 
     @Override
     protected void initModels() {
         mPosition = Integer.parseInt(getIntent().getStringExtra("Position"));
         mTitle.setText(IRApplication.mRoomList.get(mPosition).getName());
+        mConnectedStatus.setVisibility(View.VISIBLE);
+        if(IRApplication.isConnected) {
+            mConnectedStatus.setText(getResources().getString(R.string.connected));
+        } else {
+            mConnectedStatus.setText(getResources().getString(R.string.disconnected));
+        }
         initListView();
         initGridView();
         checkEmptyList();
@@ -147,25 +125,27 @@ public class DevicesActivity extends CoreBLEActivity {
                     new ArrayList<Device>(), new ArrayList<String>()));
         }
         final ArrayList<CustomButton> customButtonsList = IRApplication.mRoomList.get(mPosition).getCustomButtonsList();
-
         mGridAdapter = new CustomButtonGridAdapter(this, customButtonsList);
         mGrid.setAdapter(mGridAdapter);
         mGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                if(position != mGridAdapter.getCount()-1) {
-                    showAddCustomButtonDialog(mGridAdapter.getItem(position), true, new DialogAddCustomButtonListener() {
+                if (position != mGridAdapter.getCount() - 1) {
+                    showAddCustomButtonDialog(mPosition, mGridAdapter.getItem(position), true, new DialogAddCustomButtonListener() {
                         @Override
                         public void onYes(CustomButton c) {
                             mGridAdapter.getItem(position).setName(c.getName());
                             mGridAdapter.getItem(position).setCommandList(c.getCommandList());
                             mGridAdapter.getItem(position).setDevicesList(c.getDevicesList());
                             mGrid.setAdapter(mGridAdapter);
+                            saveRoomListSharedPreference();
                         }
+
                         @Override
                         public void onNo() {
 
                         }
+
                         @Override
                         public void onDelete() {
                             mGridAdapter.removeItem(position);
@@ -179,27 +159,32 @@ public class DevicesActivity extends CoreBLEActivity {
         });
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if(position == customButtonsList.size()-1) {
-                    showAddCustomButtonDialog(null, false, new DialogAddCustomButtonListener() {
+                if (position == customButtonsList.size() - 1) {
+                    showAddCustomButtonDialog(mPosition, null, false, new DialogAddCustomButtonListener() {
                         @Override
                         public void onYes(CustomButton c) {
                             mGridAdapter.addItem(c);
                             mGrid.setAdapter(mGridAdapter);
+                            saveRoomListSharedPreference();
                         }
+
                         @Override
                         public void onNo() {
 
                         }
+
                         @Override
                         public void onDelete() {
 
                         }
                     });
                 } else {
-                    for(String s : mGridAdapter.getItem(position).getCommandList()) {
-                        sendMessageToBLEDevice(s);
+                    if(IRApplication.isConnected) {
+                        for (String s : mGridAdapter.getItem(position).getCommandList()) {
+                            sendMessageToBLEDevice(s);
+                        }
                     }
-                } 
+                }
             }
         });
     }
@@ -246,10 +231,23 @@ public class DevicesActivity extends CoreBLEActivity {
                 finish();
                 break;
             case R.id.setting:
-                scanBLE();
+                scanBLE(mConnectedStatus);
                 break;
             default:
                 break;
         }
+    }
+
+    private DialogFragment mDialog;
+    public DialogFragment showAddCustomButtonDialog(final int mPos, final CustomButton c, final boolean canDelete, final DialogAddCustomButtonListener mListener) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                removePreviousDialog();
+                mDialog = DialogAddCustomButton.newInstance(mPos, c, canDelete, DevicesActivity.this, mListener);
+                mDialog.show(getSupportFragmentManager(), TAG);
+            }
+        });
+        return mDialog;
     }
 }

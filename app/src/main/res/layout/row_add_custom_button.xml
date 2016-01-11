@@ -4,25 +4,19 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <Spinner
-        android:id="@+id/device_name"
+    <vn.fpt.ircontroller.customizes.MyTextView
+        android:id="@+id/info"
         android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
         android:layout_height="45dp"
+        android:gravity="center_vertical"
         android:layout_marginRight="2dp"
-        android:layout_weight="1" />
-
-    <Spinner
-        android:id="@+id/command"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="2dp"
         android:layout_weight="1" />
 
     <ImageView
-        android:id="@+id/add"
+        android:id="@+id/edit"
         android:layout_width="25dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="2dp"
-        android:src="@mipmap/add" />
+        android:layout_marginRight="2dp" />
 </LinearLayout>

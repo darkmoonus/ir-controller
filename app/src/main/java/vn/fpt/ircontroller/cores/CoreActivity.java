@@ -114,18 +114,6 @@ public abstract class CoreActivity extends AppCompatActivity implements Serializ
 		});
 		return mDialog;
 	}
-	public DialogFragment showAddCustomButtonDialog(final CustomButton c, final boolean canDelete, final DialogAddCustomButtonListener mListener) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				removePreviousDialog();
-				mDialog = DialogAddCustomButton.newInstance(c, canDelete, CoreActivity.this, mListener);
-				mDialog.show(getSupportFragmentManager(), TAG);
-			}
-		});
-		return mDialog;
-	}
-
 
 	public void hideKeyboard() {
 		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);

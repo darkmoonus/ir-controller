@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,13 +20,18 @@ import java.util.ArrayList;
 import vn.fpt.ircontroller.R;
 import vn.fpt.ircontroller.activities.DevicesActivity;
 import vn.fpt.ircontroller.activities.HomeActivity;
+import vn.fpt.ircontroller.application.IRApplication;
 import vn.fpt.ircontroller.cores.CoreActivity;
+import vn.fpt.ircontroller.models.AddCustomButtonModel;
+import vn.fpt.ircontroller.models.Device;
+import vn.fpt.ircontroller.models.DeviceRemote;
 import vn.fpt.ircontroller.models.Room;
 
-public class AddCustomButtonListAdapter extends RecyclerView.Adapter<String> {
-    private ArrayList<Room> dataSet;
-    private HomeActivity mActivity;
-    public AddCustomButtonListAdapter(ArrayList<Room> myDataSet, HomeActivity mActivity) {
+public class AddCustomButtonListAdapter extends RecyclerView.Adapter<AddCustomButtonListAdapter.DataObjectHolder> {
+    public ArrayList<AddCustomButtonModel> dataSet;
+    public DevicesActivity mActivity;
+
+    public AddCustomButtonListAdapter(ArrayList<AddCustomButtonModel> myDataSet, DevicesActivity mActivity) {
         this.mActivity = mActivity;
         this.dataSet = myDataSet;
     }
@@ -42,78 +50,56 @@ public class AddCustomButtonListAdapter extends RecyclerView.Adapter<String> {
 
     @Override
     public void onBindViewHolder(final DataObjectHolder holder, final int position) {
-        final Room r = dataSet.get(position);
-        holder.name.setText(r.getName());
-        holder.deviceQuantity.setText(r.getDeviceList().size() + " " + mActivity.getResources().getString(R.string.devices));
-        holder.delete.setOnClickListener(new View.OnClickListener() {
+        final AddCustomButtonModel r = dataSet.get(position);
+        holder.info.setText(r.getDeviceName() + " | " + r.getCommand());
+        holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Room delRoom = dataSet.get(position);
-                deleteItem(position);
-                mActivity.showSnackBar(v, mActivity.getResources().getString(R.string.delete) + " " + r.getName() + " " +
-                                mActivity.getResources().getString(R.string.successful), mActivity.getResources().getString(R.string.undo),
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                addItem(delRoom, position);
-                            }
-                        });
+
             }
         });
     }
 
-    public void addItem(Room dataObj, int index) {
+    public void addItem(AddCustomButtonModel dataObj, int index) {
         dataSet.add(index, dataObj);
         notifyItemInserted(index);
         mActivity.checkEmptyList();
         mActivity.saveRoomListSharedPreference();
     }
 
-    public void addItem(Room dataObj) {
+    public void addItem(AddCustomButtonModel dataObj) {
         dataSet.add(0, dataObj);
         notifyItemInserted(0);
-        mActivity.checkEmptyList();
-        mActivity.saveRoomListSharedPreference();
     }
 
     public void deleteItem(int index) {
-        if (index >= 0 && index <= dataSet.size()-1) {
+        if (index >= 0 && index <= dataSet.size() - 1) {
             dataSet.remove(index);
             notifyItemRemoved(index);
-            mActivity.checkEmptyList();
-            mActivity.saveRoomListSharedPreference();
         }
     }
 
     public void clearData() {
         dataSet.clear();
-        mActivity.checkEmptyList();
-        mActivity.saveRoomListSharedPreference();
     }
-    public Room getItem(int index) {
+
+    public AddCustomButtonModel getItem(int index) {
         return dataSet.get(index);
     }
+
     @Override
     public int getItemCount() {
         return dataSet.size();
     }
 
-    public class DataObjectHolder extends RecyclerView.ViewHolder{
-        private TextView name, deviceQuantity;
-        private ImageView delete;
+    public class DataObjectHolder extends RecyclerView.ViewHolder {
+        private TextView info;
+        private ImageView edit;
+
         public DataObjectHolder(View itemView, int type) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.name);
-            deviceQuantity = (TextView) itemView.findViewById(R.id.device_quantity);
-            delete = (ImageView) itemView.findViewById(R.id.delete);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(mActivity, DevicesActivity.class);
-                    i.putExtra("Position", getPosition() + "");
-                    mActivity.startActivity(i);
-                }
-            });
+            info = (TextView) itemView.findViewById(R.id.info);
+            edit = (ImageView) itemView.findViewById(R.id.edit);
         }
     }
 }

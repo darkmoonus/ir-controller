@@ -40,6 +40,18 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
+    <vn.fpt.ircontroller.customizes.MyTextView
+        android:id="@+id/connected_status"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/connected"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
     <ImageView
         android:id="@+id/setting"
         android:layout_width="?attr/actionBarSize"

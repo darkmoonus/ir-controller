@@ -8,6 +8,9 @@
     <string name="change">Change</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+
     <string name="title_activity_home">Rooms</string>
     <string name="search_hint_activity_home">Search Rooms</string>
     <string name="title_activity_devices">Devices</string>

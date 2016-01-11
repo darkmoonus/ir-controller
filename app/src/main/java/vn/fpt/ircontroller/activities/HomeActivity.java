@@ -88,7 +88,6 @@ public class HomeActivity extends CoreActivity {
         });
     }
 
-
     @Override
     protected void initViews() {
         mAddRoom = (FloatingActionButton) findViewById(R.id.add);
@@ -150,7 +149,7 @@ public class HomeActivity extends CoreActivity {
                 });
                 break;
             case R.id.navigate:
-                finish();
+
                 break;
             default:
                 break;
